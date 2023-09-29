@@ -1,0 +1,38 @@
+import { Pipeline } from '../types';
+
+export const tagPipeline: Pipeline = {
+  id: 222,
+  iid: 22,
+  project_id: 0,
+  sha: 'xxxx2',
+  ref: 'v1.502.0',
+  status: 'success',
+  source: 'push',
+  created_at: '2023-09-20T20:20:00.000Z',
+  updated_at: '2023-09-20T20:30:00.000Z',
+  web_url: 'https://github.com/tags/',
+  tag: false,
+  user: {
+    id: 2,
+    username: 'jane.doe',
+    name: 'Jane Doe',
+    state: 'active',
+    avatar_url: 'https://picsum.photos/id/718/200',
+    web_url: 'https://github.com/jane/',
+  },
+  started_at: '2023-09-20T20:25:00.000Z',
+  finished_at: '2023-09-20T20:28:00.000Z',
+  duration: 1063,
+  queued_duration: 3,
+  detailed_status: {
+    icon: 'status_success',
+    text: 'passed',
+    label: 'passed',
+    group: 'success',
+    tooltip: 'passed',
+    has_details: false,
+    details_path: '/web/frontend/pipelines/222',
+    favicon: '/x.png',
+  },
+  name: null,
+};

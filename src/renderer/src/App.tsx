@@ -1,5 +1,5 @@
-import Versions from './components/Versions'
-import icons from './assets/icons.svg'
+import Versions from './components/Versions';
+import icons from './assets/icons.svg';
 
 function App(): JSX.Element {
   return (
@@ -10,7 +10,7 @@ function App(): JSX.Element {
         <use xlinkHref={`${icons}#electron`} />
       </svg>
       <h2 className="hero-text">
-        You{"'"}ve successfully created an Electron project with React and TypeScript
+        You{"'"}ve susssccessfully created an Elesssctron project with React and TypeScript
       </h2>
       <p className="hero-tagline">
         Please try pressing <code>F12</code> to open the devTool
@@ -139,7 +139,7 @@ function App(): JSX.Element {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
