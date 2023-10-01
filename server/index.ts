@@ -1,7 +1,6 @@
 import * as Express from 'express';
 import { getIsCountdownActive, startCountdown } from './countdown';
-import { getPipeline, getPipelines } from './getResponse';
-import { statuses } from './constants';
+import { getPipeline, getPipelines } from './responseHandlers';
 
 const app = Express();
 const port = 3002;
@@ -18,18 +17,20 @@ app.get('/start/:time', (req: Express.Request, res: Express.Response) => {
   }
 });
 
-app.get('/pipelines', (_: Express.Request, res: Express.Response) => {
-  res.json(getPipelines());
+app.get('/:projectId/pipelines', (request: Express.Request, response: Express.Response) => {
+  response.json(getPipelines(request.params.projectId));
 });
 
-app.get('/pipelines/:id/:status?', (req: Express.Request, res: Express.Response) => {
-  const isTag = req.params.id === '222';
-  const status = req.params.status;
-  const statusOverride: string | false = statuses.includes(status) && status;
-  const countdownActive = getIsCountdownActive();
+app.get(
+  '/:projectId/pipelines/:pipelineId/:status?',
+  (request: Express.Request, response: Express.Response) => {
+    const { projectId, pipelineId, status } = request.params;
 
-  res.send(getPipeline(isTag, countdownActive, statusOverride));
-});
+    const countdownActive = getIsCountdownActive();
+
+    response.send(getPipeline(projectId, pipelineId, countdownActive, status));
+  }
+);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
