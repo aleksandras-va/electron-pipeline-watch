@@ -8,7 +8,7 @@ interface Props {
 export function SubscriptionCard({ pipeline }: Props) {
   return (
     <>
-      <Card border={'secondary'}>
+      <Card border={'secondary'} className="mb-3">
         <Card.Header>
           {/*Header*/}
           <Container fluid="xs">

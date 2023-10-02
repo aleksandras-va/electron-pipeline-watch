@@ -4,18 +4,16 @@ import type { PipelineData } from '../../../globalTypes';
 
 interface Props {
   id: number;
+  name: string;
   apiData?: PipelineData[];
 }
 
-export function Project({ id, apiData }: Props) {
-  console.log(apiData, 'dla');
-
+export function Project({ id, apiData, name }: Props) {
   return (
     <div className="w-100">
-      <h2 className="mb-4">Root Worker</h2>
+      <h2 className="mb-4">{name}</h2>
       <SubscribeInput id={id} />
       {apiData?.map((pipeline, index) => {
-        console.log(pipeline);
         return <SubscriptionCard key={index} pipeline={pipeline} />;
       })}
     </div>

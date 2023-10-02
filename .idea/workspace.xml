@@ -4,29 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="383668a6-ff53-4154-a79e-ade3c02d4ba1" name="Changes" comment="feat: add server">
-      <change afterPath="$PROJECT_DIR$/src/renderer/src/components/SubscribeInput/handleSubscribe.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/renderer/src/components/SubscribeInput/index.tsx" afterDir="false" />
+    <list default="true" id="383668a6-ff53-4154-a79e-ade3c02d4ba1" name="Changes" comment="Initial">
+      <change afterPath="$PROJECT_DIR$/src/main/startPipelineWatcher.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/prettier.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/prettier.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.vscode/extensions.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.vscode/launch.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.vscode/settings.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/data/branch-pipeline.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/data/pipelines.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/data/tag-pipeline.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/getResponse.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/types.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/preload/index.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/preload/index.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/preload/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/preload/index.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/renderer/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/renderer/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/renderer/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/renderer/src/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/renderer/src/main.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/renderer/src/main.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/renderer/src/components/Project.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/renderer/src/components/Project.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/renderer/src/components/SubscriptionCard/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/renderer/src/components/SubscriptionCard/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/tsconfig.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tsconfig.node.json" beforeDir="false" afterPath="$PROJECT_DIR$/tsconfig.node.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tsconfig.web.json" beforeDir="false" afterPath="$PROJECT_DIR$/tsconfig.web.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -104,7 +91,7 @@
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "prettierjs.PrettierConfiguration.Package": "/Users/nord-security/Personal/Programming/electron-pipeline-watch/node_modules/prettier",
-    "settings.editor.selected.configurable": "settings.javascript.prettier",
+    "settings.editor.selected.configurable": "preferences.keymap",
     "ts.external.directory.path": "/Users/nord-security/Personal/Programming/electron-pipeline-watch/node_modules/typescript/lib"
   }
 }]]></component>
@@ -189,6 +176,9 @@
       <updated>1696009566878</updated>
       <workItem from="1696009567880" duration="4735000" />
       <workItem from="1696105469276" duration="23725000" />
+      <workItem from="1696267235359" duration="1526000" />
+      <workItem from="1696270462631" duration="210000" />
+      <workItem from="1696270684662" duration="3574000" />
     </task>
     <task id="LOCAL-00001" summary="feat: add server">
       <option name="closed" value="true" />
@@ -198,7 +188,15 @@
       <option name="project" value="LOCAL" />
       <updated>1696015454382</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Initial">
+      <option name="closed" value="true" />
+      <created>1696197651039</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1696197651039</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -218,6 +216,7 @@
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="feat: add server" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: add server" />
+    <MESSAGE value="Initial" />
+    <option name="LAST_COMMIT_MESSAGE" value="Initial" />
   </component>
 </project>

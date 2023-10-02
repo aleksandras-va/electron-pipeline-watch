@@ -41,11 +41,22 @@ ipcMain.on('pipeline:subscribe', async (_, payload: SubscribeRequest) => {
     incomingSubscriptions[projectId] = [];
   }
 
+  if (incomingSubscriptions[projectId].includes(pipelineId)) {
+    // TODO: add error handling
+    return;
+  }
+
   incomingSubscriptions[projectId].push(pipelineId);
 
-  const resolvedSubscriptions = await resolveSubscriptions(payload, outgoingSubscriptionData);
-
-  outgoingSubscriptionData = { ...resolvedSubscriptions };
+  outgoingSubscriptionData = { ...(await resolveSubscriptions(payload, outgoingSubscriptionData)) };
 
   mainWindow.webContents.send('pipeline:subscriptions', outgoingSubscriptionData);
+});
+
+// startPipelineWatcher(mainWindow);
+
+app.on('browser-window-created', () => {
+  console.log(mainWindow);
+
+  console.log('created!');
 });
