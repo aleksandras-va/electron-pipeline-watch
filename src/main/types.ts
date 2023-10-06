@@ -3,4 +3,4 @@ export interface SubscribeRequest {
   pipelineId: number;
 }
 
-export type IncomingSubscriptions = Record<string, number[]>;
+export type ReferenceList = Record<string, number[]>;

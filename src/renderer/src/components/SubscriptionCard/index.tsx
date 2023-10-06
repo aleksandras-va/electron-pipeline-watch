@@ -1,8 +1,8 @@
 import { Card, CloseButton, Col, Container, ListGroup, Row } from 'react-bootstrap';
-import { PipelineData } from '../../../../globalTypes';
+import { Pipeline } from '../../../../globalTypes';
 
 interface Props {
-  pipeline: PipelineData;
+  pipeline: Pipeline;
 }
 
 export function SubscriptionCard({ pipeline }: Props) {

@@ -1,16 +1,23 @@
 import { Project } from './components/Project';
 import { useEffect, useState } from 'react';
-import { OutgoingSubscriptionData } from '../../globalTypes';
+import { BridgeList } from '../../globalTypes';
 
 export function App() {
-  const [apiData, setApiData] = useState<OutgoingSubscriptionData>({});
+  const [apiData, setApiData] = useState<BridgeList>({});
 
   useEffect(() => {
     electron?.ipcRenderer.on('pipeline:subscriptions', (_, args) => {
       setApiData(args);
     });
 
-    return () => electron.ipcRenderer.removeAllListeners('pipeline:subscriptions');
+    electron?.ipcRenderer.on('pipeline:update', (_, args) => {
+      setApiData(args);
+    });
+
+    return () => {
+      electron.ipcRenderer.removeAllListeners('pipeline:subscriptions');
+      electron.ipcRenderer.removeAllListeners('pipeline:update');
+    };
   }, []);
 
   return (

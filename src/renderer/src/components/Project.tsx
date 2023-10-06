@@ -1,11 +1,11 @@
 import { SubscriptionCard } from './SubscriptionCard';
 import { SubscribeInput } from './SubscribeInput';
-import type { PipelineData } from '../../../globalTypes';
+import type { Pipeline } from '../../../globalTypes';
 
 interface Props {
   id: number;
   name: string;
-  apiData?: PipelineData[];
+  apiData?: Pipeline[];
 }
 
 export function Project({ id, apiData, name }: Props) {

@@ -1,24 +1,26 @@
 import type { SubscribeRequest } from './types';
-import type { OutgoingSubscriptionData } from '../globalTypes';
+import type { BridgeList } from '../globalTypes';
 
 export async function resolveSubscriptions(
   subscribeRequest: SubscribeRequest,
-  outgoingSubscriptionData: OutgoingSubscriptionData
-): Promise<OutgoingSubscriptionData> {
+  outgoingSubscriptionData: BridgeList
+): Promise<BridgeList> {
   const { projectId, pipelineId } = subscribeRequest;
 
   if (!outgoingSubscriptionData[projectId]) {
     outgoingSubscriptionData[projectId] = [];
   }
 
+  const requestUrl = `http://localhost:3002/${projectId}/pipelines/${pipelineId}`;
+
   try {
-    const rawData = await fetch(`http://localhost:3002/${projectId}/pipelines/${pipelineId}`);
+    const rawData = await fetch(requestUrl);
     const data = await rawData.json();
 
     outgoingSubscriptionData[projectId].unshift(data);
 
     return outgoingSubscriptionData;
   } catch (error) {
-    throw new Error(`Fetch failed! More: ${error}`);
+    throw new Error(`Fetch for "${requestUrl}" has failed! More: ${error}`);
   }
 }
