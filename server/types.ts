@@ -3,6 +3,7 @@ export interface Pipeline {
   project_id: number;
   ref: string;
   status: string;
+  random: string;
 }
 
 export type StaticPipelineData = { [key: string]: Pipeline[] };

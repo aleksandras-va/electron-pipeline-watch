@@ -1,19 +1,13 @@
-import {app, BrowserWindow, ipcMain} from 'electron';
-import {createWindow} from './createWindow';
-import {ReferenceList, SubscribeRequest} from './types';
-import {resolveSubscriptions} from './resolveSubscriptions';
-import {BridgeList} from '../globalTypes';
-import {startPipelineWatcher} from './startPipelineWatcher';
-
+import { app, BrowserWindow, ipcMain } from 'electron';
+import { createWindow } from './createWindow';
+import { SubscribeRequest } from './types';
+import { DataBridge, IDataBridge } from './dataBridge';
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-
-const referenceList: ReferenceList = {};
-
 let mainWindow: BrowserWindow;
-let bridgeList: BridgeList = {};
+let dataBridge: IDataBridge;
 
 app.whenReady().then(async () => {
   mainWindow = createWindow();
@@ -24,7 +18,9 @@ app.whenReady().then(async () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
 
-  await startPipelineWatcher(mainWindow, referenceList, bridgeList);
+  dataBridge = new DataBridge(mainWindow);
+
+  await dataBridge.watch();
 });
 
 // Quit when all windows are closed, except on macOS. There, it's common
@@ -43,22 +39,13 @@ app.on('window-all-closed', () => {
 });
 
 ipcMain.on('pipeline:subscribe', async (_, payload: SubscribeRequest) => {
-  const { projectId, pipelineId } = payload;
+  await dataBridge.subscribe(payload);
 
-  if (!referenceList[projectId]) {
-    referenceList[projectId] = [];
-  }
-
-  if (referenceList[projectId].includes(pipelineId)) {
-    // TODO: add error handling
-    return;
-  }
-
-  referenceList[projectId].push(pipelineId);
-
-  bridgeList = { ...(await resolveSubscriptions(payload, bridgeList)) };
-
-  mainWindow.webContents.send('pipeline:subscriptions', bridgeList);
+  mainWindow.webContents.send('pipeline:subscriptions', dataBridge.getBridge());
 });
 
+ipcMain.on('pipeline:unsubscribe', async (_, payload: SubscribeRequest) => {
+  await dataBridge.unsubscribe(payload);
 
+  mainWindow.webContents.send('pipeline:subscriptions', dataBridge.getBridge());
+});

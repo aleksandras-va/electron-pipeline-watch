@@ -5,13 +5,37 @@ export function buildStaticPipelines(id: number) {
   let data: Pipeline[] = [];
 
   for (let i = 0; i < 9; i++) {
-    const pipelineId = Number(`${id}0${111 * (i + 1)}`);
+    const pipelineId = 111 * (i + 1);
+    const version = `${id}.${pipelineId}`;
     const possibleStatuses = ['success', 'success', 'success', 'success', 'failed'];
     const possibleRefs = [
-      `feat/feature-of-${pipelineId}`,
-      `fix/fixing-${pipelineId}`,
-      `v1.50.${pipelineId}`,
-      `chore/document-${pipelineId}-change`,
+      `feat/feature-of-${version}`,
+      `fix/fixing-${version}`,
+      `v1.${version}`,
+      `chore/document-${version}-change`,
+    ];
+
+    const randomVerbs = [
+      '🏃 Running',
+      '🚶 Walking',
+      '🏊 Swimming',
+      '🚴 Cycling',
+      '🧘 Meditating',
+      '🧹 Sweeping',
+      '🛏️ Sleeping',
+      '🚀 Launching',
+      '🛒 Shopping',
+      '🏋️‍♀️ Lifting',
+      '🤸‍️ Flipping',
+      '🍳 Cooking',
+      '🎤 Singing',
+      '🎨 Painting',
+      '📚 Reading',
+      '🚗 Driving',
+      '✈️ Flying',
+      '🎸 Playing',
+      '🛁 Bathing',
+      '📝 Writing',
     ];
 
     data.push({
@@ -19,6 +43,7 @@ export function buildStaticPipelines(id: number) {
       project_id: id,
       ref: getRandomString(possibleRefs),
       status: getRandomString(possibleStatuses),
+      random: getRandomString(randomVerbs),
     });
   }
 

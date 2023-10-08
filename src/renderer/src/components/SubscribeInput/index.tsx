@@ -1,5 +1,5 @@
 import { Button, Form, InputGroup } from 'react-bootstrap';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { handleSubscribe } from './handleSubscribe';
 
 import cx from 'classnames';
@@ -9,18 +9,22 @@ interface Props {
 }
 
 export function SubscribeInput({ id }: Props) {
-  // const PROJECT_ID_CHANNEL = `project:id-${id}`;
-
   const [inputValue, setInputValue] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
-  // const handleFromMain = () => setInputValue(inputValue + 1);
-  //
-  // useEffect(() => {
-  //   electron?.ipcRenderer.on(PROJECT_ID_CHANNEL, handleFromMain);
-  //
-  //   return () => electron.ipcRenderer.removeAllListeners(PROJECT_ID_CHANNEL);
-  // }, [inputValue]);
+  const handleSubscribeCallback = handleSubscribe.bind(
+    null,
+    id,
+    inputValue,
+    setInputValue,
+    setErrorMessage
+  );
+
+  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      handleSubscribeCallback();
+    }
+  };
 
   return (
     <InputGroup className="mb-4">
@@ -30,13 +34,10 @@ export function SubscribeInput({ id }: Props) {
         placeholder={errorMessage ? errorMessage : 'Pipeline ID'}
         aria-label="Username"
         onChange={(event) => setInputValue(event.target.value)}
+        onKeyDown={handleKeyPress}
         value={inputValue}
       />
-      <Button
-        variant="outline-secondary"
-        id="button-addon1"
-        onClick={() => handleSubscribe(id, inputValue, setInputValue, setErrorMessage)}
-      >
+      <Button variant="outline-secondary" id="button-addon1" onClick={handleSubscribeCallback}>
         Subscribe
       </Button>
     </InputGroup>

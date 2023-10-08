@@ -6,6 +6,13 @@ interface Props {
 }
 
 export function SubscriptionCard({ pipeline }: Props) {
+  const handleUnsubscribe = () => {
+    electron.ipcRenderer.send('pipeline:unsubscribe', {
+      projectId: pipeline.project_id,
+      pipelineId: pipeline.id,
+    });
+  };
+
   return (
     <>
       <Card border={'secondary'} className="mb-3">
@@ -15,7 +22,11 @@ export function SubscriptionCard({ pipeline }: Props) {
             <Row className="align-items-center">
               <Col xs="auto">Watching #{pipeline.id}</Col>
               <Col className="d-flex justify-content-end">
-                <CloseButton className="ml-auto" aria-label="Unsubscribe" />
+                <CloseButton
+                  className="ml-auto"
+                  aria-label="Unsubscribe"
+                  onClick={handleUnsubscribe}
+                />
               </Col>
             </Row>
           </Container>
@@ -26,6 +37,9 @@ export function SubscriptionCard({ pipeline }: Props) {
           </ListGroup.Item>
           <ListGroup.Item>
             Tag: <strong>{pipeline.ref}</strong>
+          </ListGroup.Item>
+          <ListGroup.Item>
+            Verb: <strong>{pipeline.random}</strong>
           </ListGroup.Item>
         </ListGroup>
       </Card>
