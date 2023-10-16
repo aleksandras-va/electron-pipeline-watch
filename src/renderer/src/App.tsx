@@ -31,7 +31,7 @@ export function App() {
       <div className="d-flex gap-4">
         <Project
           id={11}
-          name="Root Worker"
+          name="Root Workers"
           activePipelines={apiData.active['11']}
           completedPipelines={apiData.completed['11']}
         />
