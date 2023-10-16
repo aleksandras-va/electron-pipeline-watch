@@ -9,3 +9,17 @@ export async function handleFetch<T>(requestUrl: string): Promise<T> {
     throw new Error(`Tried fetching: "${requestUrl}".\nMore: ${error}`);
   }
 }
+
+export function findTargetId(target: number, array: { id: number }[]) {
+  let targetId = -1;
+
+  for (let i = 0; i < array.length; i++) {
+    if (target === array[i].id) {
+      targetId = i;
+
+      break;
+    }
+  }
+
+  return targetId;
+}

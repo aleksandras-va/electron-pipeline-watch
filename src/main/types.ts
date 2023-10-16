@@ -3,4 +3,6 @@ export interface SubscribeRequest {
   pipelineId: number;
 }
 
-export type ReferenceList = Record<string, number[]>;
+export interface UnsubscribeRequest extends SubscribeRequest {
+  completed: boolean;
+}

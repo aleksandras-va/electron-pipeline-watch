@@ -5,7 +5,8 @@
     "src/main/*",
     "src/main/dataBridge/*",
     "src/preload/*",
-    "src/globalTypes.ts"
+    "src/globalTypes.ts",
+    "global.d.ts"
   ],
   "compilerOptions": {
     "composite": true,

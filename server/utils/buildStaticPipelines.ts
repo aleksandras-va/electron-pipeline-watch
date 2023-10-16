@@ -1,13 +1,14 @@
 import { Pipeline } from '../types';
 import { getRandomString } from './getRandomString';
 
-export function buildStaticPipelines(id: number) {
+export function buildStaticPipelines(id: number, count: number) {
   let data: Pipeline[] = [];
 
   for (let i = 0; i < 9; i++) {
+    const seed = i + 2;
     const pipelineId = 111 * (i + 1);
     const version = `${id}.${pipelineId}`;
-    const possibleStatuses = ['success', 'success', 'success', 'success', 'failed'];
+    const possibleStatuses = ['success', 'success', 'failed'];
     const possibleRefs = [
       `feat/feature-of-${version}`,
       `fix/fixing-${version}`,
@@ -42,7 +43,7 @@ export function buildStaticPipelines(id: number) {
       id: pipelineId,
       project_id: id,
       ref: getRandomString(possibleRefs),
-      status: getRandomString(possibleStatuses),
+      status: count > seed ? getRandomString(possibleStatuses) : 'running',
       random: getRandomString(randomVerbs),
     });
   }

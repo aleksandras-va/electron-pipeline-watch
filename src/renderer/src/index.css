@@ -9,3 +9,19 @@ h1 {
 h2 {
   font-size: 1.2rem;
 }
+
+.indicator_icon {
+  width: 8px;
+  height: 8px;
+}
+
+.indicator_number{
+  font-size: 10px;
+  line-height: 10px;
+}
+
+.debug-bar {
+  position: fixed;
+  top: 0;
+  right: 10px;
+}

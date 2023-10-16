@@ -3,19 +3,30 @@ import { Pipeline } from '../../../../globalTypes';
 
 interface Props {
   pipeline: Pipeline;
+  completed?: boolean;
 }
 
-export function SubscriptionCard({ pipeline }: Props) {
+export function SubscriptionCard({ pipeline, completed = false }: Props) {
   const handleUnsubscribe = () => {
     electron.ipcRenderer.send('pipeline:unsubscribe', {
       projectId: pipeline.project_id,
       pipelineId: pipeline.id,
+      completed,
     });
   };
 
+  const { status } = pipeline;
+  let border = 'secondary';
+
+  if (status === 'success') {
+    border = 'success';
+  } else if (status === 'failed') {
+    border = 'danger';
+  }
+
   return (
     <>
-      <Card border={'secondary'} className="mb-3">
+      <Card border={border} className="mb-3">
         <Card.Header>
           {/*Header*/}
           <Container fluid="xs">
@@ -39,7 +50,7 @@ export function SubscriptionCard({ pipeline }: Props) {
             Tag: <strong>{pipeline.ref}</strong>
           </ListGroup.Item>
           <ListGroup.Item>
-            Verb: <strong>{pipeline.random}</strong>
+            Info: <strong>{pipeline.data}</strong>
           </ListGroup.Item>
         </ListGroup>
       </Card>
