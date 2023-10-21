@@ -2,8 +2,7 @@
   "extends": "@electron-toolkit/tsconfig/tsconfig.node.json",
   "include": [
     "electron.vite.config.*",
-    "src/main/*",
-    "src/main/dataBridge/*",
+    "src/main/**/*.ts",
     "src/preload/*",
     "src/globalTypes.ts",
     "global.d.ts"
