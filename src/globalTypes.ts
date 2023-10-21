@@ -7,9 +7,9 @@ export interface Pipeline {
   data?: string;
 }
 
-export type BridgeList = Record<string, Pipeline[]>;
+export type PipelinesMap = Record<string, Pipeline[]>;
 
 export interface PipelinePayload {
-  active: BridgeList;
-  completed: BridgeList;
+  active: PipelinesMap;
+  completed: PipelinesMap;
 }

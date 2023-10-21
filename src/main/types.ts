@@ -1,5 +1,8 @@
-export interface SubscribeRequest {
+export interface WatchRequest {
   projectId: number;
+}
+
+export interface SubscribeRequest extends WatchRequest {
   pipelineId: number;
 }
 

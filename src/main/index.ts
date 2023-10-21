@@ -1,13 +1,14 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
 import { createWindow } from './createWindow';
-import { SubscribeRequest } from './types';
-import { DataBridge, IDataBridge } from './dataBridge';
+import { SubscribeRequest, UnsubscribeRequest } from './types';
+import { AppManager } from './AppManager';
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 let mainWindow: BrowserWindow;
-let dataBridge: IDataBridge;
+
+let appManager: AppManager;
 
 app.whenReady().then(async () => {
   mainWindow = createWindow();
@@ -28,9 +29,7 @@ app.whenReady().then(async () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
 
-  dataBridge = new DataBridge(app, mainWindow);
-
-  await dataBridge.watch();
+  appManager = new AppManager(mainWindow);
 });
 
 // Quit when all windows are closed, except on macOS. There, it's common
@@ -49,18 +48,13 @@ app.on('window-all-closed', () => {
 });
 
 ipcMain.on('pipeline:subscribe', async (_, payload: SubscribeRequest) => {
-  await dataBridge.subscribe(payload);
-
-  // new Notification({
-  //   title: 'hello',
-  //   actions: [{ type: 'button', text: 'hello' }],
-  // }).show();
+  await appManager.subscribe(payload);
 });
 
 ipcMain.on('debug:manual-fetch', async () => {
-  await dataBridge.watch();
+  await appManager.watch();
 });
 
-ipcMain.on('pipeline:unsubscribe', async (_, payload: SubscribeRequest) => {
-  await dataBridge.unsubscribe(payload);
+ipcMain.on('pipeline:unsubscribe', (_, payload: UnsubscribeRequest) => {
+  appManager.unsubscribe(payload);
 });

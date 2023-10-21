@@ -4,3 +4,4 @@ out
 *.log*
 /server/**/*.js
 .idea
+.env
