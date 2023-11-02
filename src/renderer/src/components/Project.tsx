@@ -9,17 +9,21 @@ interface Props {
   name: string;
   activePipelines?: Pipeline[];
   completedPipelines?: Pipeline[];
+  badges?: any;
 }
 
-export function Project({ id, activePipelines, completedPipelines, name }: Props) {
+export function Project({ id, activePipelines, completedPipelines, name, badges }: Props) {
   useEffect(() => {}, [activePipelines]);
   useEffect(() => {}, [completedPipelines]);
 
   return (
     <div className="w-100">
       <h2 className="mb-4">{name}</h2>
+      <div>Done: {badges || 0}</div>
       <SubscribeInput id={id} />
-      {!!completedPipelines?.length && <Completed completedPipelines={completedPipelines} />}
+      {!!completedPipelines?.length && (
+        <Completed completedPipelines={completedPipelines} id={id} />
+      )}
       {activePipelines?.map((pipeline, index) => {
         return <SubscriptionCard key={index} pipeline={pipeline} />;
       })}

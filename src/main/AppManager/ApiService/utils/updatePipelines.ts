@@ -1,4 +1,6 @@
-import { Pipeline } from '../../../globalTypes';
+import { Pipeline } from '../../../../globalTypes';
+
+import { PipelineMap } from './buildActivePipelineMap';
 
 interface UpdatePipelines {
   updatedListOfActive: Pipeline[];
@@ -7,18 +9,14 @@ interface UpdatePipelines {
 
 export function updatePipelines(
   activePipelines: Pipeline[],
-  pipelinesFromApi: Map<number, Pipeline>
+  pipelinesFromApi: PipelineMap
 ): UpdatePipelines {
   let updatedListOfActive: Pipeline[] = [];
   let updatedListOfCompleted: Pipeline[] = [];
 
   activePipelines.forEach((pipeline) => {
     const currentId = pipeline.id;
-    const matchingPipelineFromApi = pipelinesFromApi.get(currentId);
-
-    if (!matchingPipelineFromApi) {
-      throw new Error(`Pipeline ID: ${currentId} does not exist in API response.`);
-    }
+    const matchingPipelineFromApi = pipelinesFromApi[currentId];
 
     if (matchingPipelineFromApi.status !== 'running') {
       pipeline.status = matchingPipelineFromApi.status;

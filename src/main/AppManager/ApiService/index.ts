@@ -1,16 +1,18 @@
-import { Pipeline, PipelinesMap } from '../../globalTypes';
-
-import { SubscribeRequest, WatchRequest } from '../types';
 import { handleFetchPipeline, handleFetchPipelines } from './utils/handleFetch';
 import { updatePipelines } from './utils/updatePipelines';
+import { buildActivePipelineMap } from './utils/buildActivePipelineMap';
+import { SubscribeRequest, WatchRequest } from '../../types';
+import { PipelinesMap } from '../../../globalTypes';
 
 export class ApiService {
   private readonly activePipelinesMap: PipelinesMap;
   private readonly completedPipelinesMap: PipelinesMap;
+  private readonly updatedPipelinesMap: PipelinesMap;
 
-  constructor(active: PipelinesMap, completed: PipelinesMap) {
+  constructor(active: PipelinesMap, completed: PipelinesMap, updated: PipelinesMap) {
     this.activePipelinesMap = active;
     this.completedPipelinesMap = completed;
+    this.updatedPipelinesMap = updated;
   }
 
   async register(request: SubscribeRequest) {
@@ -28,24 +30,16 @@ export class ApiService {
     const referenceToActive = this.activePipelinesMap[projectId];
     const referenceToCompleted = this.completedPipelinesMap[projectId];
 
-    const activePipelinesIds = referenceToActive.map(({ id }) => id);
-    const pipelinesFromApi: Map<number, Pipeline> = new Map();
-
     const data = await handleFetchPipelines(request);
-
-    // Build Map of newly fetched pipelines
-    data.forEach((pipeline) => {
-      if (activePipelinesIds.includes(pipeline.id)) {
-        pipelinesFromApi.set(pipeline.id, pipeline);
-      }
-    });
+    const apiActivePipelines = buildActivePipelineMap(data, referenceToActive);
 
     const { updatedListOfActive, updatedListOfCompleted } = updatePipelines(
       referenceToActive,
-      pipelinesFromApi
+      apiActivePipelines
     );
 
     this.activePipelinesMap[projectId] = [...updatedListOfActive];
     this.completedPipelinesMap[projectId] = [...updatedListOfCompleted, ...referenceToCompleted];
+    this.updatedPipelinesMap[projectId] = [...updatedListOfCompleted];
   }
 }

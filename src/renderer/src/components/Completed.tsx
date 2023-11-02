@@ -5,10 +5,12 @@ import { useEffect, useState } from 'react';
 
 interface Props {
   completedPipelines?: Pipeline[];
+  id: number;
 }
 
-export function Completed({ completedPipelines }: Props) {
+export function Completed({ completedPipelines, id }: Props) {
   const [splitStatus, setSplitStatus] = useState([0, 0]);
+  const [expanded, setExpanded] = useState(false);
 
   useEffect(() => {
     const status = completedPipelines!.reduce(
@@ -27,9 +29,13 @@ export function Completed({ completedPipelines }: Props) {
     setSplitStatus(status);
   }, [completedPipelines]);
 
+  useEffect(() => {
+    electron.ipcRenderer.send('ui:accordion-status', { id, expanded });
+  }, [expanded]);
+
   return (
     <div className="mb-4">
-      <Accordion>
+      <Accordion onSelect={() => setExpanded(!expanded)}>
         <Accordion.Item eventKey="0">
           <Accordion.Header>
             <div className="w-100 d-flex justify-content-between">
