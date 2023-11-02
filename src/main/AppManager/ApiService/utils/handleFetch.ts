@@ -1,5 +1,5 @@
-import { SubscribeRequest, WatchRequest } from '../../types';
-import { Pipeline } from '../../../globalTypes';
+import { SubscribeRequest, WatchRequest } from '../../../types';
+import { Pipeline } from '../../../../globalTypes';
 
 function buildRequestUrl({ projectId, pipelineId }: { projectId: number; pipelineId?: number }) {
   const baseUrl = import.meta.env.MAIN_API_URL;

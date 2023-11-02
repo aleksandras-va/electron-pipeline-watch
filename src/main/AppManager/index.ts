@@ -1,28 +1,45 @@
-import { BrowserWindow } from 'electron';
+import { BrowserWindow, ipcMain } from 'electron';
 import { PipelinesMap } from '../../globalTypes';
 import { SubscribeRequest, UnsubscribeRequest } from '../types';
-import { findTargetId, pipelineAlreadyRegistered } from './utils';
-import { ApiService } from '../ApiService';
-import { DataBridge } from '../DataBridge';
 
-export class AppManager {
+import { pipelineAlreadyRegistered } from './utils/pipelineAlreadyRegistered';
+import { findTargetId } from './utils/findTargetId';
+import { factoryPipelineMap } from './utils/factoryPipelineMap';
+import { ApiService } from './ApiService';
+import { DataBridge } from './DataBridge';
+import { BadgeManager } from './BadgeManager';
+import { StateManager } from '../StateManager';
+
+export class AppManager extends StateManager {
   readonly mainWindow: BrowserWindow;
-  private readonly projects: string[];
+  public readonly projects: string[];
   readonly activePipelinesMap: PipelinesMap;
-  // private readonly updatedPipelinesMap: PipelinesMap;
   readonly completedPipelinesMap: PipelinesMap;
+  readonly updatedPipelinesMap: PipelinesMap;
   private readonly apiService: ApiService;
   private bridge: DataBridge;
+  private badgeManager: BadgeManager;
 
   constructor(mainWindow: BrowserWindow) {
+    super();
+
     this.mainWindow = mainWindow;
     this.projects = ['11', '22', '33'];
-    this.activePipelinesMap = { '11': [], '22': [], '33': [] };
-    // this.updatedPipelinesMap = { '11': [], '22': [], '33': [] };
-    this.completedPipelinesMap = { '11': [], '22': [], '33': [] };
+    this.activePipelinesMap = factoryPipelineMap(this.projects);
+    this.completedPipelinesMap = factoryPipelineMap(this.projects);
+    this.updatedPipelinesMap = factoryPipelineMap(this.projects);
 
-    this.apiService = new ApiService(this.activePipelinesMap, this.completedPipelinesMap);
+    this.apiService = new ApiService(
+      this.activePipelinesMap,
+      this.completedPipelinesMap,
+      this.updatedPipelinesMap
+    );
+
     this.bridge = new DataBridge(this);
+    this.badgeManager = new BadgeManager(this);
+
+    this.bridge.listen();
+    this.badgeManager.listen();
   }
 
   async subscribe(request: SubscribeRequest): Promise<void> {
@@ -62,5 +79,34 @@ export class AppManager {
     await Promise.all(updatePromises);
 
     this.bridge.message('pipeline:update');
+    this.badgeManager.setBadges();
+  }
+
+  init() {
+    this.mainWindow.on('focus', () => {
+      this.setWindowFocusState({ payload: true });
+    });
+
+    this.mainWindow.on('blur', () => {
+      this.setWindowFocusState({ payload: false });
+    });
+
+    ipcMain.on('pipeline:subscribe', async (_, payload: SubscribeRequest) => {
+      await this.subscribe(payload);
+    });
+
+    ipcMain.on('debug:manual-fetch', async () => {
+      await this.watch();
+    });
+
+    ipcMain.on('pipeline:unsubscribe', (_, payload: UnsubscribeRequest) => {
+      this.unsubscribe(payload);
+    });
+
+    ipcMain.on('ui:accordion-status', (_, payload) => {
+      const { id, expanded } = payload;
+
+      this.setProjectState({ target: id, payload: expanded ? 'expanded' : 'collapsed' });
+    });
   }
 }
