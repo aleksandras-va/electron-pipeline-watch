@@ -1,6 +1,6 @@
 export interface Pipeline {
-  id: number;
-  project_id: number;
+  id: string;
+  project_id: string;
   ref: string;
   status: string;
   random?: string;

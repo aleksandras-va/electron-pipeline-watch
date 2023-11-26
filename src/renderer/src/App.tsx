@@ -1,29 +1,30 @@
-import { Project } from './components/Project';
 import { useEffect, useState } from 'react';
-import { PipelinePayload } from '../../globalTypes';
+import { NotifyOn, Projects } from '../../globalTypes';
 import { Debug } from './Debug';
+import { Project } from './components/Project';
+import { MainToRendererChannels } from '../../globalConstants';
 
 export function App() {
-  const [apiData, setApiData] = useState<PipelinePayload>({ active: {}, completed: {} });
-  const [badges, setBadges] = useState({});
+  const [projectsMap, setProjectsMap] = useState<Projects>({});
+  const [notifyOn, setNotifyOn] = useState<NotifyOn>({});
 
   useEffect(() => {
-    electron?.ipcRenderer.on('pipeline:subscriptions', (_, args) => {
-      setApiData({ ...args });
+    // Projects
+    electron.ipcRenderer.on(MainToRendererChannels.Project, (_, payload: { data: Projects }) => {
+      setProjectsMap(payload.data);
     });
 
-    electron?.ipcRenderer.on('pipeline:update', (_, args) => {
-      setApiData({ ...args });
-    });
-
-    electron?.ipcRenderer.on('badges', (_, args) => {
-      setBadges({ ...args });
-    });
+    // Notifications
+    electron.ipcRenderer.on(
+      MainToRendererChannels.Notifications,
+      (_, payload: { data: NotifyOn }) => {
+        setNotifyOn(payload.data);
+      }
+    );
 
     return () => {
-      electron.ipcRenderer.removeAllListeners('pipeline:subscriptions');
-      electron.ipcRenderer.removeAllListeners('pipeline:update');
-      electron.ipcRenderer.removeAllListeners('badges');
+      electron.ipcRenderer.removeAllListeners(MainToRendererChannels.Project);
+      electron.ipcRenderer.removeAllListeners(MainToRendererChannels.Notifications);
     };
   }, []);
 
@@ -36,25 +37,22 @@ export function App() {
 
       <div className="d-flex gap-4">
         <Project
-          id={11}
-          name="Root Worker"
-          activePipelines={apiData.active['11']}
-          completedPipelines={apiData.completed['11']}
-          badges={badges['11']}
+          id={'11'}
+          name={'Root Worker'}
+          pipelines={projectsMap['11']?.pipelinesData}
+          updated={notifyOn['11']}
         />
         <Project
-          id={22}
-          name="Stella"
-          activePipelines={apiData.active['22']}
-          completedPipelines={apiData.completed['22']}
-          badges={badges['22']}
+          id={'22'}
+          name={'Stella'}
+          pipelines={projectsMap['22']?.pipelinesData}
+          updated={notifyOn['22']}
         />
         <Project
-          id={33}
-          name="Lib"
-          activePipelines={apiData.active['33']}
-          completedPipelines={apiData.completed['33']}
-          badges={badges['33']}
+          id={'33'}
+          name={'Lib'}
+          pipelines={projectsMap['33']?.pipelinesData}
+          updated={notifyOn['33']}
         />
       </div>
     </main>
