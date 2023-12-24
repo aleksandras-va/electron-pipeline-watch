@@ -16,8 +16,8 @@ export function buildStaticPipelinesV2(id: number, count: number) {
     ];
 
     data.push({
-      id: pipelineId,
-      project_id: id,
+      id: String(pipelineId),
+      project_id: String(id),
       ref: getRandomString(possibleRefs),
       status: count > pipelineId ? getRandomString(possibleStatuses) : 'running',
       data: `${count === pipelineId ? 'NXT ❗' : ''}Target: ${pipelineId} | Count: ${count}`,

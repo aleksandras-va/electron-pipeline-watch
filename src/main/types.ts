@@ -1,11 +1,7 @@
 export interface WatchRequest {
-  projectId: number;
+  projectId: string;
 }
 
 export interface SubscribeRequest extends WatchRequest {
-  pipelineId: number;
-}
-
-export interface UnsubscribeRequest extends SubscribeRequest {
-  completed: boolean;
+  pipelineId: string;
 }

@@ -7,5 +7,5 @@ export function getPipeline(request: Express.Request, response: Express.Response
 
   const pipelines = buildStaticPipelines(projectId, 0);
 
-  response.json(pipelines.find(({ id }) => id === pipelineId));
+  response.json(pipelines.find(({ id }) => id === String(pipelineId)));
 }

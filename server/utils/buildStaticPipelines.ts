@@ -40,8 +40,8 @@ export function buildStaticPipelines(id: number, count: number) {
     ];
 
     data.push({
-      id: pipelineId,
-      project_id: id,
+      id: String(pipelineId),
+      project_id: String(id),
       ref: getRandomString(possibleRefs),
       status: count > seed ? getRandomString(possibleStatuses) : 'running',
       random: getRandomString(randomVerbs),

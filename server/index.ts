@@ -33,7 +33,7 @@ app.get(
 
     const pipelines = buildStaticPipelinesV2(projectId, callRegister[projectId] || 0);
 
-    response.json(pipelines.find(({ id }) => id === pipelineId));
+    response.json(pipelines.find(({ id }) => id === String(pipelineId)));
   }
 );
 
