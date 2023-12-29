@@ -2,10 +2,10 @@ import { deepCloneObject, Static } from '../utils';
 import { uiState } from '../state/UiState';
 import { projectsState } from '../state/ProjectsState';
 import { appState } from '../state/AppState';
-import { notificationsState } from '../state/NotificationsState';
+import { alertsState } from '../state/AlertsState';
 import { NotifyOn } from '../../globalTypes';
 
-export class NotificationsHandler extends Static {
+export class AlertsHandler extends Static {
   static addNotifyOn() {
     const updateMap: NotifyOn = {};
     const windowInFocus = appState.instance.windowFocused;
@@ -18,17 +18,17 @@ export class NotificationsHandler extends Static {
       const currentDropdownExpanded = uiState.dropdown[id] === 'expanded';
 
       if (!windowInFocus || !currentDropdownExpanded) {
-        const currentNotifyOn = notificationsState.instance.notifyOn[id] || [];
+        const currentNotifyOn = alertsState.instance.notifyOn[id] || [];
 
         updateMap[id] = [...currentNotifyOn, ...project.lastUpdated];
       }
     });
 
-    notificationsState.updateNotifyOn(updateMap);
+    alertsState.updateNotifyOn(updateMap);
   }
 
   static dismissNotifyOn(projectId?: string) {
-    const updateMap = deepCloneObject(notificationsState.instance.notifyOn);
+    const updateMap = deepCloneObject(alertsState.instance.notifyOn);
 
     if (!appState.instance.windowFocused) return;
 
@@ -42,6 +42,6 @@ export class NotificationsHandler extends Static {
       });
     }
 
-    notificationsState.updateNotifyOn(updateMap);
+    alertsState.updateNotifyOn(updateMap);
   }
 }

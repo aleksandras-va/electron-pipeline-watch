@@ -3,6 +3,7 @@ import { statuses } from './globalConstants';
 // TODO: import these types in some document closer to processes
 
 export type Status = (typeof statuses)[number];
+export type FinishedStatus = 'failed' | 'success';
 
 export interface PipelineApi {
   id: string;
@@ -29,8 +30,7 @@ export interface Project {
 export type NotifyOn = Record<string, string[]>;
 
 export type Projects = Record<string, Project>;
-export type Updated = Record<string, string[]>;
-export type Dropdown = Record<string, 'expanded' | 'collapsed'>;
+export type Updates = Record<string, string[]>;
 
 export interface Notifications {
   notifyOn: NotifyOn;

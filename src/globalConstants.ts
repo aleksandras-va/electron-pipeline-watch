@@ -9,7 +9,7 @@ export const statuses = [
 ] as const;
 
 export enum MainToRendererChannels {
-  Notifications = 'notifications-update',
+  Alerts = 'alerts-update',
   Pipeline = 'pipeline-update',
   Project = 'project-update',
 }

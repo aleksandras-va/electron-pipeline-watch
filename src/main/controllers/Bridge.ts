@@ -4,7 +4,7 @@ import { MainToRendererChannels, RendererToMainChannels } from '../../globalCons
 import { RequestReducer } from '../RequestReducer';
 import { DebugPayload, PipelinePayload, ProjectPayload, UiPayload } from '../../globalTypes';
 import { projectsState } from '../state/ProjectsState';
-import { notificationsState } from '../state/NotificationsState';
+import { alertsState } from '../state/AlertsState';
 import WebContents = Electron.WebContents;
 
 export class Bridge implements IObserver {
@@ -53,9 +53,9 @@ export class Bridge implements IObserver {
         });
         break;
 
-      case StateUpdateType.Notification:
-        this.ipcRenderer.send(MainToRendererChannels.Notifications, {
-          data: notificationsState.instance.notifyOn,
+      case StateUpdateType.Alert:
+        this.ipcRenderer.send(MainToRendererChannels.Alerts, {
+          data: alertsState.instance.notifyOn,
         });
         break;
 

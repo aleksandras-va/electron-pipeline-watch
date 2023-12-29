@@ -3,7 +3,7 @@ import { is } from '@electron-toolkit/utils';
 import { BrowserWindow, shell } from 'electron';
 import { fileURLToPath } from 'url';
 import { eventManager } from './EventManager';
-import { notificationManager } from './NotificationManager';
+import { AlertManager } from './AlertManager';
 import { DynamicProcess } from './controllers/DynamicProcess';
 import { Bridge } from './controllers/Bridge';
 
@@ -47,12 +47,13 @@ export function createWindow() {
 
   const bridge = new Bridge(mainWindow);
   const dynamicProcess = new DynamicProcess();
+  const alertManager = new AlertManager(mainWindow);
 
   bridge.init();
   dynamicProcess.init();
 
   eventManager.subscribe(bridge);
-  eventManager.subscribe(notificationManager);
+  eventManager.subscribe(alertManager);
 
   return mainWindow;
 }
