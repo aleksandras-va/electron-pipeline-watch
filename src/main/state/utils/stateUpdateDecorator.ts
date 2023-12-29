@@ -1,6 +1,6 @@
 import { eventManager, StateUpdateType } from '../../EventManager';
 
-export function onStateUpdate(stateUpdateType: StateUpdateType) {
+function onStateUpdate(stateUpdateType: StateUpdateType) {
   return function (_target: unknown, _key: string, descriptor: PropertyDescriptor) {
     const originalMethod = descriptor.value;
 
@@ -15,6 +15,6 @@ export function onStateUpdate(stateUpdateType: StateUpdateType) {
 }
 
 const onProjectStateUpdate = onStateUpdate(StateUpdateType.Project);
-const onNotificationStateUpdate = onStateUpdate(StateUpdateType.Notification);
+const onNotificationStateUpdate = onStateUpdate(StateUpdateType.Alert);
 
 export { onProjectStateUpdate, onNotificationStateUpdate };

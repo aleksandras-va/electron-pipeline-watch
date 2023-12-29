@@ -1,10 +1,10 @@
 import { Static } from '../utils';
-import { alreadyExists } from './utils/alreadyExists';
 import { prepareProjectUpdate } from './utils/prepareProjectUpdate';
 import { isDone } from './utils/isDone';
 import { fetchPipeline } from './utils/handleFetch';
 import { projectsState } from '../state/ProjectsState';
-import { NotificationsHandler } from './NotificationsHandler';
+import { AlertsHandler } from './AlertsHandler';
+import { alreadyExists } from './utils/alreadyExists';
 
 interface AddRemoveRequest {
   projectId: string;
@@ -38,7 +38,7 @@ export class PipelineHandler extends Static {
 
     // Check if there are any status changes with this update
     if (updatedProjects.some(({ lastUpdated }) => lastUpdated.length)) {
-      NotificationsHandler.addNotifyOn();
+      AlertsHandler.addNotifyOn();
     }
   }
 }

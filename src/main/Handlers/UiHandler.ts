@@ -1,6 +1,6 @@
 import { Static } from '../utils';
 import { uiState } from '../state/UiState';
-import { NotificationsHandler } from './NotificationsHandler';
+import { AlertsHandler } from './AlertsHandler';
 
 interface UpdateDropdown {
   projectId: string;
@@ -11,6 +11,6 @@ export class UiHandler extends Static {
   static updateDropdownState({ projectId, elementState }: UpdateDropdown) {
     uiState.updateDropdown(projectId, elementState);
 
-    NotificationsHandler.dismissNotifyOn(projectId);
+    AlertsHandler.dismissNotifyOn(projectId);
   }
 }

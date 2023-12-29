@@ -14,7 +14,16 @@ export class ProjectsState {
     return Object.keys(this.instance);
   }
 
-  @onProjectStateUpdate
+  get projectsWithUpdates(): string[] {
+    return Object.entries(this.instance).reduce((accumulator: string[], [key, value]) => {
+      if (value.lastUpdated.length) {
+        accumulator.push(key);
+      }
+
+      return accumulator;
+    }, []);
+  }
+
   public addProject(projectId: string) {
     this.instance = { ...this.instance, [projectId]: { pipelinesData: [], lastUpdated: [] } };
   }
@@ -30,6 +39,8 @@ export class ProjectsState {
         pipelinesData: [{ ...pipeline }, ...state[projectId].pipelinesData],
       },
     };
+
+    this.clearLastUpdates();
   }
 
   @onProjectStateUpdate
@@ -45,6 +56,8 @@ export class ProjectsState {
         ],
       },
     };
+
+    this.clearLastUpdates();
   }
 
   @onProjectStateUpdate
@@ -53,6 +66,14 @@ export class ProjectsState {
     this.ids.forEach((id, index) => {
       this.instance = updateProject(this.instance, id, projects[index]);
     });
+  }
+
+  private clearLastUpdates() {
+    const state = this.instance;
+
+    this.instance = Object.keys(state).reduce((accumulator, id): Projects => {
+      return { ...accumulator, [id]: { ...state[id], lastUpdated: [] } };
+    }, {});
   }
 }
 

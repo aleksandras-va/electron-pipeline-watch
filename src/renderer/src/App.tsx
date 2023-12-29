@@ -14,17 +14,14 @@ export function App() {
       setProjectsMap(payload.data);
     });
 
-    // Notifications
-    electron.ipcRenderer.on(
-      MainToRendererChannels.Notifications,
-      (_, payload: { data: NotifyOn }) => {
-        setNotifyOn(payload.data);
-      }
-    );
+    // Alerts
+    electron.ipcRenderer.on(MainToRendererChannels.Alerts, (_, payload: { data: NotifyOn }) => {
+      setNotifyOn(payload.data);
+    });
 
     return () => {
       electron.ipcRenderer.removeAllListeners(MainToRendererChannels.Project);
-      electron.ipcRenderer.removeAllListeners(MainToRendererChannels.Notifications);
+      electron.ipcRenderer.removeAllListeners(MainToRendererChannels.Alerts);
     };
   }, []);
 

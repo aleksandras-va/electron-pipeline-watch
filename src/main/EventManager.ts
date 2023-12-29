@@ -2,7 +2,7 @@ export enum StateUpdateType {
   Project = 'project-state-update',
   Ui = 'ui-state-update',
   App = 'app-state-update',
-  Notification = 'notification-state-update',
+  Alert = 'alert-state-update',
 }
 
 export interface IObserver {
