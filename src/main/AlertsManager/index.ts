@@ -4,7 +4,7 @@ import { alertsState } from '../state/AlertsState';
 import { projectsState } from '../state/ProjectsState';
 import { getNotificationData } from './utils/getNotificationData';
 
-export class AlertManager implements IObserver {
+export class AlertsManager implements IObserver {
   private browserWindow: BrowserWindow;
 
   constructor(browserWindow: BrowserWindow) {
