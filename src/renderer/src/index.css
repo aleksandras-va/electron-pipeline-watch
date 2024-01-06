@@ -10,18 +10,49 @@ h2 {
   font-size: 1.2rem;
 }
 
-.clear-all {
+.accordion-header-info {
+  font-size: 11px;
+}
+
+.accordion-header-info__clear-all {
   cursor: pointer;
   border: 1px solid #7b7b80;
   padding: 4px 8px;
-  font-size: 11px;
   border-radius: 4px;
-  transition: all .3s ease-in-out;
+  transition: background-color .3s ease-in-out;
 }
 
-.clear-all:hover {
+.accordion-header-info__clear-all:hover {
   background-color: brown;
+}
 
+.accordion-header-info__indicator {
+  margin: 7px 0 8px 0;
+  width: 8px;
+  height: 8px;
+  margin-right: 16px;
+  border-radius: 50%;
+  background: rgba(255,255,255,1);
+  box-shadow: inset 0px 0px 10px 2px rgba(0,255,182,0.5),
+  0px 0px 10px 2px rgba(0,255,135,1);
+  animation: pulse 1s alternate infinite;
+}
+
+@keyframes pulse {
+  0% {
+    background: rgba(255,255,255,0.3);
+    box-shadow: inset 0px 0px 10px 2px rgba(0,255,182,0.5),
+    0px 0px 5px 2px rgba(0,255,135,0.3);
+  }
+  100% {
+    background: rgba(255,255,255,1);
+    box-shadow: inset 0px 0px 10px 2px rgba(0,255,182,0.5),
+    0px 0px 15px 2px rgba(0,255,135,1);
+  }
+}
+
+.accordion-header-info__no-data {
+  padding: 5px 0;
 }
 
 .indicator_icon {
@@ -29,11 +60,10 @@ h2 {
   height: 8px;
 }
 
-.indicator_number{
+.indicator_number {
   font-size: 10px;
   line-height: 10px;
 }
-
 
 
 .debug-bar {

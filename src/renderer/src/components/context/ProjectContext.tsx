@@ -1,3 +1,11 @@
 import React, { createContext } from 'react';
 
-export const ProjectContext: React.Context<string> = createContext('0');
+interface ContextData {
+  id: string;
+  updates: number;
+}
+
+export const ProjectContext: React.Context<ContextData> = createContext({
+  id: '0',
+  updates: 0,
+});

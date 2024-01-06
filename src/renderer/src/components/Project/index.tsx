@@ -11,10 +11,11 @@ interface Props {
 }
 
 export function Project({ id, name, pipelines = [], updated = [] }: Props) {
+  const updates = updated ? 1 : 0;
+
   return (
-    <ProjectContext.Provider value={id}>
+    <ProjectContext.Provider value={{ id, updates }}>
       <div className="w-100">
-        <sup>Unseen: {updated.length}</sup>
         <h2 className="mb-4">{name}</h2>
         <SubscriptionForm />
         <Cards pipelines={pipelines} />
