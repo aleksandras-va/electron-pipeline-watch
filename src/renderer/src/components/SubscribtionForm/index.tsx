@@ -5,7 +5,7 @@ import { ProjectContext } from '../context/ProjectContext';
 
 export function SubscriptionForm() {
   const [inputValue, setInputValue] = useState('');
-  const id = useContext(ProjectContext);
+  const { id } = useContext(ProjectContext);
   const handleSubscribeCallback = handleSubscribe.bind(null, id, inputValue, setInputValue);
 
   const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {

@@ -13,7 +13,7 @@ export function CompletedCards({ pipelines }: Props) {
   const [splitStatus, setSplitStatus] = useState([0, 0]);
   const [expanded, setExpanded] = useState(false);
 
-  const id = useContext(ProjectContext);
+  const { id, updates } = useContext(ProjectContext);
 
   useEffect(() => {
     const status = pipelines.reduce(
@@ -59,9 +59,22 @@ export function CompletedCards({ pipelines }: Props) {
         <AccordionBase.Item eventKey="0">
           <AccordionBase.Header>
             <div className="w-100 d-flex justify-content-between">
-              <div className="clear-all" onClick={handleClearAll}>
-                Clear ({pipelines?.length})
+              <div className="accordion-header-info d-flex align-items-center">
+                {pipelines.length ? (
+                  updates ? (
+                    <div className="accordion-header-info__indicator" />
+                  ) : (
+                    <div className="accordion-header-info__clear-all" onClick={handleClearAll}>
+                      Clear ({pipelines?.length})
+                    </div>
+                  )
+                ) : (
+                  <div className="accordion-header-info__no-data" onClick={handleClearAll}>
+                    No items
+                  </div>
+                )}
               </div>
+
               <div className="px-2 d-flex">
                 <div className="indicator d-flex align-items-center px-2">
                   <div className="indicator_icon d-inline-block  rounded-circle bg-success" />
