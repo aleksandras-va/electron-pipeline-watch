@@ -3,7 +3,7 @@ import { statuses } from './globalConstants';
 // TODO: import these types in some document closer to processes
 
 export type Status = (typeof statuses)[number];
-export type FinishedStatus = 'failed' | 'success';
+export type FinishedStatus = 'failed' | 'success' | 'skipped';
 
 export interface PipelineApi {
   id: string;
@@ -41,11 +41,24 @@ export interface ProjectPayload {
   projectId: string;
 }
 
-export interface PipelinePayload {
-  details: 'add' | 'remove';
-  projectId: string;
-  pipelineId: string;
+export interface PipelinePayloadTypes {
+  add: {
+    action: 'add';
+    projectId: string;
+    pipelineId: string;
+  };
+  remove: {
+    action: 'remove';
+    projectId: string;
+    pipelineId: string;
+  };
+  removeCompleted: {
+    action: 'remove-completed';
+    projectId: string;
+  };
 }
+
+export type PipelinePayload = PipelinePayloadTypes[keyof PipelinePayloadTypes];
 
 export interface UiPayloadTypes {
   dropdown: {

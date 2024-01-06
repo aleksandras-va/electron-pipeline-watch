@@ -13,7 +13,7 @@ export async function handleSubscribe(
 
   setInputValue('');
 
-  const payload: PipelinePayload = { details: 'add', projectId, pipelineId };
+  const payload: PipelinePayload = { action: 'add', projectId, pipelineId };
 
   electron.ipcRenderer.send(RendererToMainChannels.Pipeline, payload);
 }

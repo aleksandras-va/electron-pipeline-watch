@@ -1,5 +1,6 @@
 import { FinishedStatus } from '../../../globalTypes';
 import { projectsState } from '../../state/ProjectsState';
+import { isDone } from '../../Handlers/utils/isDone';
 
 type PipelineSummaryTuple = [projectName: string, pipelineName: string, status: FinishedStatus];
 type OverallStatus = FinishedStatus | 'mixed' | null;
@@ -25,7 +26,13 @@ export function resolveUpdateData() {
       const statuses: PipelineSummaryTuple[] = currentUpdateIds.map((updateId) => {
         const updatedPipeline = allProjectPipelines.find((pipeline) => pipeline.id === updateId)!;
 
-        const status = updatedPipeline.status as unknown as FinishedStatus;
+        let status: FinishedStatus;
+
+        if (updatedPipeline && isDone(updatedPipeline?.status)) {
+          status = updatedPipeline.status as FinishedStatus;
+        } else {
+          throw new Error(`Bad status received!, ${JSON.stringify(updatedPipeline)}`);
+        }
 
         return [updatedPipeline.project_id, updatedPipeline.ref, status];
       });

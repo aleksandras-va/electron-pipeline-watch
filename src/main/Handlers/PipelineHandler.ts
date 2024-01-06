@@ -30,6 +30,10 @@ export class PipelineHandler extends Static {
     projectsState.removePipeline(String(projectId), String(pipelineId));
   }
 
+  static removeCompleted(projectId: string) {
+    projectsState.removeCompletedPipelines(projectId);
+  }
+
   static async update() {
     const projectUpdates = projectsState.ids.map((id) => prepareProjectUpdate(id));
     const updatedProjects = await Promise.all(projectUpdates);
