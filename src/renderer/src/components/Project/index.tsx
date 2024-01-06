@@ -11,7 +11,7 @@ interface Props {
 }
 
 export function Project({ id, name, pipelines = [], updated = [] }: Props) {
-  const updates = updated ? 1 : 0;
+  const updates = updated.length ? 1 : 0;
 
   return (
     <ProjectContext.Provider value={{ id, updates }}>
