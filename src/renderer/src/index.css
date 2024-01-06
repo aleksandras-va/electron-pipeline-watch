@@ -10,6 +10,20 @@ h2 {
   font-size: 1.2rem;
 }
 
+.clear-all {
+  cursor: pointer;
+  border: 1px solid #7b7b80;
+  padding: 4px 8px;
+  font-size: 11px;
+  border-radius: 4px;
+  transition: all .3s ease-in-out;
+}
+
+.clear-all:hover {
+  background-color: brown;
+
+}
+
 .indicator_icon {
   width: 8px;
   height: 8px;
@@ -20,9 +34,12 @@ h2 {
   line-height: 10px;
 }
 
+
+
 .debug-bar {
   position: fixed;
   top: 0;
   right: 10px;
   display: flex;
 }
+

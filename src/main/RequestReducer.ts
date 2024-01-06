@@ -16,15 +16,22 @@ export class RequestReducer extends Static {
   }
 
   static pipeline(payload: PipelinePayload) {
-    switch (payload.details) {
+    const { action } = payload;
+
+    switch (action) {
       case 'add':
         void PipelineHandler.add(payload);
         break;
       case 'remove':
         PipelineHandler.remove(payload);
         break;
+      case 'remove-completed':
+        PipelineHandler.removeCompleted(payload.projectId);
+        break;
       default:
-        throw new Error(`Default case reached at RequestReducer, pipeline, data: ${payload}`);
+        throw new Error(
+          `Default case reached at RequestReducer, pipeline, data: ${JSON.stringify(payload)}`
+        );
     }
   }
 

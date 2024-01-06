@@ -1,6 +1,6 @@
 import { Accordion as AccordionBase } from 'react-bootstrap';
-import { useContext, useEffect, useState } from 'react';
-import { Pipeline, UiPayload } from '../../../../globalTypes';
+import React, { useContext, useEffect, useState } from 'react';
+import { Pipeline, PipelinePayload, UiPayload } from '../../../../globalTypes';
 import { Card } from './Card';
 import { ProjectContext } from '../context/ProjectContext';
 import { RendererToMainChannels } from '../../../../globalConstants';
@@ -42,13 +42,26 @@ export function CompletedCards({ pipelines }: Props) {
     electron.ipcRenderer.send(RendererToMainChannels.Ui, payload);
   }, [expanded]);
 
+  const handleClearAll = (event: React.MouseEvent<HTMLElement>) => {
+    event.stopPropagation();
+
+    const payload: PipelinePayload = {
+      action: 'remove-completed',
+      projectId: id,
+    };
+
+    electron.ipcRenderer.send(RendererToMainChannels.Pipeline, payload);
+  };
+
   return (
     <div className="mb-4">
       <AccordionBase onSelect={() => setExpanded(!expanded)}>
         <AccordionBase.Item eventKey="0">
           <AccordionBase.Header>
             <div className="w-100 d-flex justify-content-between">
-              <div>Completed ({pipelines?.length})</div>
+              <div className="clear-all" onClick={handleClearAll}>
+                Clear ({pipelines?.length})
+              </div>
               <div className="px-2 d-flex">
                 <div className="indicator d-flex align-items-center px-2">
                   <div className="indicator_icon d-inline-block  rounded-circle bg-success" />

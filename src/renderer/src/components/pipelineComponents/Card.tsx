@@ -9,7 +9,7 @@ interface Props {
 export function Card({ pipeline }: Props) {
   const handleUnsubscribe = () => {
     const payload: PipelinePayload = {
-      details: 'remove',
+      action: 'remove',
       projectId: pipeline.project_id,
       pipelineId: pipeline.id,
     };

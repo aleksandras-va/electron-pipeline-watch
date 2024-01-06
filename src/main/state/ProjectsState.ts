@@ -61,6 +61,21 @@ export class ProjectsState {
   }
 
   @onProjectStateUpdate
+  public removeCompletedPipelines(projectId: string) {
+    const state = this.instance;
+
+    this.instance = {
+      ...state,
+      [projectId]: {
+        ...state[projectId],
+        pipelinesData: [...state[projectId].pipelinesData.filter(({ done }) => !done)],
+      },
+    };
+
+    this.clearLastUpdates();
+  }
+
+  @onProjectStateUpdate
   public updateProjects(projects: Project[]) {
     // TODO: currently order of projects is resolved by the way they are ordered in the object, fix it
     this.ids.forEach((id, index) => {
@@ -68,6 +83,7 @@ export class ProjectsState {
     });
   }
 
+  // Make sure "lastUpdated" is empty when using "add" or "remove" commands.
   private clearLastUpdates() {
     const state = this.instance;
 
