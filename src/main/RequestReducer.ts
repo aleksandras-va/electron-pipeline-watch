@@ -28,6 +28,9 @@ export class RequestReducer extends Static {
       case 'remove-completed':
         PipelineHandler.removeCompleted(payload.projectId);
         break;
+      case 'update-all':
+        void PipelineHandler.update();
+        break;
       default:
         throw new Error(
           `Default case reached at RequestReducer, pipeline, data: ${JSON.stringify(payload)}`
@@ -36,17 +39,22 @@ export class RequestReducer extends Static {
   }
 
   static ui(payload: UiPayload) {
-    const { details } = payload;
+    const { action } = payload;
 
-    switch (details) {
+    switch (action) {
       case 'dropdown':
         UiHandler.updateDropdownState({
           projectId: payload.projectId,
           elementState: payload.elementState,
         });
         break;
+      case 'timer-update':
+        UiHandler.timerUpdate(payload);
+        break;
       default:
-        throw new Error(`Default case reached at RequestReducer, ui, data: ${payload}`);
+        throw new Error(
+          `Default case reached at RequestReducer, ui, data: ${JSON.stringify(payload)}`
+        );
     }
   }
 

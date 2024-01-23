@@ -12,6 +12,7 @@ export enum MainToRendererChannels {
   Alerts = 'alerts-update',
   Pipeline = 'pipeline-update',
   Project = 'project-update',
+  Ui = 'ui-update',
 }
 
 export enum RendererToMainChannels {

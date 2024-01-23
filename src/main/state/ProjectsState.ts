@@ -7,7 +7,125 @@ export class ProjectsState {
   instance: Projects;
 
   constructor() {
-    this.instance = {};
+    this.instance = {
+      '11': {
+        pipelinesData: [
+          {
+            id: '1',
+            project_id: '11',
+            ref: 'chore/document-22.2-change',
+            status: 'running',
+            data: 'Target: 2 | Count: 0',
+            done: false,
+          },
+        ],
+        lastUpdated: [],
+      },
+      '22': {
+        pipelinesData: [
+          {
+            id: '1',
+            project_id: '22',
+            ref: 'chore/document-22.2-change',
+            status: 'running',
+            data: 'Target: 2 | Count: 0',
+            done: false,
+          },
+        ],
+        lastUpdated: [],
+      },
+      '33': {
+        pipelinesData: [
+          {
+            id: '1',
+            project_id: '33',
+            ref: 'chore/document-22.2-change',
+            status: 'running',
+            data: 'Target: 2 | Count: 0',
+            done: false,
+          },
+        ],
+        lastUpdated: [],
+      },
+      '44': {
+        pipelinesData: [
+          {
+            id: '1',
+            project_id: '44',
+            ref: 'chore/document-22.2-change',
+            status: 'running',
+            data: 'Target: 2 | Count: 0',
+            done: false,
+          },
+        ],
+        lastUpdated: [],
+      },
+      '55': {
+        pipelinesData: [
+          {
+            id: '1',
+            project_id: '55',
+            ref: 'chore/document-22.2-change',
+            status: 'running',
+            data: 'Target: 2 | Count: 0',
+            done: false,
+          },
+        ],
+        lastUpdated: [],
+      },
+      '66': {
+        pipelinesData: [
+          {
+            id: '1',
+            project_id: '66',
+            ref: 'chore/document-22.2-change',
+            status: 'running',
+            data: 'Target: 2 | Count: 0',
+            done: false,
+          },
+        ],
+        lastUpdated: [],
+      },
+      '77': {
+        pipelinesData: [
+          {
+            id: '1',
+            project_id: '77',
+            ref: 'chore/document-22.2-change',
+            status: 'running',
+            data: 'Target: 2 | Count: 0',
+            done: false,
+          },
+        ],
+        lastUpdated: [],
+      },
+      '88': {
+        pipelinesData: [
+          {
+            id: '1',
+            project_id: '88',
+            ref: 'chore/document-22.2-change',
+            status: 'running',
+            data: 'Target: 2 | Count: 0',
+            done: false,
+          },
+        ],
+        lastUpdated: [],
+      },
+      '99': {
+        pipelinesData: [
+          {
+            id: '1',
+            project_id: '99',
+            ref: 'chore/document-22.2-change',
+            status: 'running',
+            data: 'Target: 2 | Count: 0',
+            done: false,
+          },
+        ],
+        lastUpdated: [],
+      },
+    };
   }
 
   get ids() {
@@ -58,6 +176,7 @@ export class ProjectsState {
     };
 
     this.clearLastUpdates();
+    console.log(this.instance['22']);
   }
 
   @onProjectStateUpdate
@@ -96,8 +215,13 @@ export class ProjectsState {
 const projectsState = new ProjectsState();
 
 // TODO: Remove this after implementing project add/remove functionality
-projectsState.addProject('11');
-projectsState.addProject('22');
-projectsState.addProject('33');
+// projectsState.addProject('11');
+// projectsState.addProject('22');
+// projectsState.addProject('33');
+// projectsState.addProject('44');
+// projectsState.addProject('55');
+// projectsState.addProject('66');
+// projectsState.addProject('77');
+// projectsState.addProject('88');
 
 export { projectsState };

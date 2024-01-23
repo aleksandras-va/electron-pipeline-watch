@@ -27,10 +27,17 @@ export interface Project {
   lastUpdated: string[];
 }
 
-export type NotifyOn = Record<string, string[]>;
+export type UiTimerData = {
+  frequency: number;
+  timestamp: number;
+};
 
+export type NotifyOn = Record<string, string[]>;
 export type Projects = Record<string, Project>;
-export type Updates = Record<string, string[]>;
+export interface Ui {
+  dropdown: Record<string, 'expanded' | 'collapsed'>;
+  timerData: UiTimerData;
+}
 
 export interface Notifications {
   notifyOn: NotifyOn;
@@ -56,18 +63,23 @@ export interface PipelinePayloadTypes {
     action: 'remove-completed';
     projectId: string;
   };
+  updateAll: {
+    action: 'update-all';
+  };
 }
 
 export type PipelinePayload = PipelinePayloadTypes[keyof PipelinePayloadTypes];
 
 export interface UiPayloadTypes {
   dropdown: {
-    details: 'dropdown';
+    action: 'dropdown';
     projectId: string;
     elementState: 'expanded' | 'collapsed';
   };
-  click: {
-    details: 'button:click';
+  timerUpdate: {
+    action: 'timer-update';
+    frequency: number;
+    timestamp: number;
   };
 }
 

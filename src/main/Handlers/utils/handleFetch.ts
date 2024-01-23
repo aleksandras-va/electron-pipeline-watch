@@ -28,3 +28,18 @@ export async function fetchPipeline(request: SubscribeRequest) {
 export async function fetchPipelines(request: WatchRequest) {
   return handleFetch<Pipeline[], WatchRequest>(request);
 }
+
+export async function fetchPipelines2(request: WatchRequest) {
+  void request;
+  try {
+    const rawData = await fetch('https://swapi.dev/api/people/1');
+
+    const data = await rawData.json();
+    console.log('fetchin', data.name);
+    return data;
+  } catch (error) {
+    console.warn('👎 Fetch failed.');
+
+    throw new Error(`Tried fetching: "${'https://swapi.dev/api/people/1'}".\nMore: ${error}`);
+  }
+}

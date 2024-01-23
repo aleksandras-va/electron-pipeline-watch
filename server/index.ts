@@ -11,18 +11,42 @@ app.get('/:projectId/pipelines/:pipelineId', getPipeline);
 
 const callRegister = {};
 
+// app.get('/v2/:projectId/pipelines', (request: Express.Request, response: Express.Response) => {
+//   console.log('HIT');
+//   try {
+//     const projectId = Number(request.params.projectId);
+//
+//     if (callRegister[projectId] == null) {
+//       callRegister[projectId] = 1;
+//     } else {
+//       callRegister[projectId]++;
+//     }
+//
+//     const result = buildStaticPipelinesV2(projectId, callRegister[projectId]);
+//
+//     response.json(result);
+//   } catch (e) {
+//     console.log('->', e);
+//   }
+// });
+
 app.get('/v2/:projectId/pipelines', (request: Express.Request, response: Express.Response) => {
-  const projectId = Number(request.params.projectId);
+  console.log('HIT');
+  try {
+    const projectId = Number(request.params.projectId);
 
-  if (callRegister[projectId] == null) {
-    callRegister[projectId] = 1;
-  } else {
-    callRegister[projectId]++;
+    // if (callRegister[projectId] == null) {
+    //   callRegister[projectId] = 1;
+    // } else {
+    //   callRegister[projectId]++;
+    // }
+    //
+    // const result = buildStaticPipelinesV2(projectId, callRegister[projectId]);
+
+    response.json([{ id: projectId }]);
+  } catch (e) {
+    console.log('->', e);
   }
-
-  const result = buildStaticPipelinesV2(projectId, callRegister[projectId]);
-
-  response.json(result);
 });
 
 app.get(

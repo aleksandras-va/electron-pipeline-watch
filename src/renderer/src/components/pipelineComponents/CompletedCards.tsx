@@ -34,7 +34,7 @@ export function CompletedCards({ pipelines }: Props) {
 
   useEffect(() => {
     const payload: UiPayload = {
-      details: 'dropdown',
+      action: 'dropdown',
       projectId: id,
       elementState: expanded ? 'expanded' : 'collapsed',
     };

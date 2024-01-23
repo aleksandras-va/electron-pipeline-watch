@@ -1,6 +1,5 @@
-interface Ui {
-  dropdown: Record<string, 'expanded' | 'collapsed'>;
-}
+import { Ui } from '../../globalTypes';
+import { onUiStateUpdate } from './utils/stateUpdateDecorator';
 
 export class UiState {
   instance: Ui;
@@ -8,6 +7,10 @@ export class UiState {
   constructor() {
     this.instance = {
       dropdown: {},
+      timerData: {
+        frequency: 0,
+        timestamp: 0,
+      },
     };
   }
 
@@ -21,6 +24,16 @@ export class UiState {
     this.instance = {
       ...state,
       dropdown: { ...state.dropdown, [projectId]: elementState },
+    };
+  }
+
+  @onUiStateUpdate
+  public updateTimerData(frequency: number, timestamp: number) {
+    const state = this.instance;
+
+    this.instance = {
+      ...state,
+      timerData: { frequency, timestamp },
     };
   }
 }

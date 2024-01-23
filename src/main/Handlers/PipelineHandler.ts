@@ -38,6 +38,8 @@ export class PipelineHandler extends Static {
     const projectUpdates = projectsState.ids.map((id) => prepareProjectUpdate(id));
     const updatedProjects = await Promise.all(projectUpdates);
 
+    console.log('Fetched!', Date.now(), '\n');
+
     projectsState.updateProjects(updatedProjects);
 
     // Check if there are any status changes with this update

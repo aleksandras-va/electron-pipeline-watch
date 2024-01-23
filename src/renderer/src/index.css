@@ -65,10 +65,27 @@ h2 {
   line-height: 10px;
 }
 
+.update-view__text {
+  font-size: 10px;
+  line-height: 10px;
+}
+
+.update-view__indicator {
+  width: 0;
+  height: 2px;
+  background-color: darkred;
+}
+.update-view__indicator.red {
+  transition-property: width;
+  transition-timing-function: linear;
+  /*transition-duration: 5000ms;*/
+  width: 100%;
+}
 
 .debug-bar {
+  height: 30px;
   position: fixed;
-  top: 0;
+  bottom: 0;
   right: 10px;
   display: flex;
 }

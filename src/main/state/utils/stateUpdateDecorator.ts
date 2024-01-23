@@ -16,5 +16,6 @@ function onStateUpdate(stateUpdateType: StateUpdateType) {
 
 const onProjectStateUpdate = onStateUpdate(StateUpdateType.Project);
 const onNotificationStateUpdate = onStateUpdate(StateUpdateType.Alert);
+const onUiStateUpdate = onStateUpdate(StateUpdateType.Ui);
 
-export { onProjectStateUpdate, onNotificationStateUpdate };
+export { onProjectStateUpdate, onNotificationStateUpdate, onUiStateUpdate };
