@@ -30,7 +30,6 @@ export class Bridge implements IObserver {
 
     ipcMain.on(RendererToMainChannels.Debug, (_, payload: DebugPayload) => {
       RequestReducer.debug(payload);
-      console.log('Manual fetch requested', Date.now());
     });
   }
 

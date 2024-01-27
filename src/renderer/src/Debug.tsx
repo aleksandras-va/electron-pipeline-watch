@@ -29,7 +29,6 @@ export function Debug() {
         onClick={() => {
           const payload: DebugPayload = { details: 'update-all' };
 
-          // setInterval(() => electron.ipcRenderer.send(RendererToMainChannels.Debug, payload), 5000);
           electron.ipcRenderer.send(RendererToMainChannels.Debug, payload);
         }}
       >

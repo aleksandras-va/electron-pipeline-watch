@@ -3,13 +3,19 @@ import { NotifyOn, Projects, UiTimerData } from '../../globalTypes';
 import { Debug } from './Debug';
 import { Project } from './components/Project';
 import { MainToRendererChannels } from '../../globalConstants';
+import { UpdateIndicator } from './components/UpdateIndicator';
 
 export function App() {
   const [projectsMap, setProjectsMap] = useState<Projects>({});
   const [notifyOn, setNotifyOn] = useState<NotifyOn>({});
   const [timerData, setTimerData] = useState<UiTimerData>({ frequency: 0, timestamp: 0 });
 
+  // Set "frequency" by sending constant from initialization rather that timer tick
+  const [frequency, setFrequency] = useState<number | null>(null);
+
   useEffect(() => {
+    setFrequency(5020);
+
     // Projects
     electron.ipcRenderer.on(MainToRendererChannels.Project, (_, payload: { data: Projects }) => {
       setProjectsMap(payload.data);
@@ -34,7 +40,7 @@ export function App() {
 
   return (
     <main className="mx-5">
-      {/*<UpdateIndicator timerData={timerData} />*/}
+      {frequency && <UpdateIndicator timerData={timerData} frequency={frequency} />}
       <div className="my-5">
         <h1>Projects</h1>
       </div>
@@ -56,42 +62,6 @@ export function App() {
           name={'Lib'}
           pipelines={projectsMap['33']?.pipelinesData}
           updated={notifyOn['33']}
-        />
-        <Project
-          id={'44'}
-          name={'Lib'}
-          pipelines={projectsMap['44']?.pipelinesData}
-          updated={notifyOn['44']}
-        />
-        <Project
-          id={'55'}
-          name={'Lib'}
-          pipelines={projectsMap['55']?.pipelinesData}
-          updated={notifyOn['55']}
-        />
-        <Project
-          id={'66'}
-          name={'Lib'}
-          pipelines={projectsMap['66']?.pipelinesData}
-          updated={notifyOn['66']}
-        />
-        <Project
-          id={'77'}
-          name={'Lib'}
-          pipelines={projectsMap['77']?.pipelinesData}
-          updated={notifyOn['77']}
-        />
-        <Project
-          id={'88'}
-          name={'Lib'}
-          pipelines={projectsMap['88']?.pipelinesData}
-          updated={notifyOn['88']}
-        />
-        <Project
-          id={'99'}
-          name={'Lib'}
-          pipelines={projectsMap['99']?.pipelinesData}
-          updated={notifyOn['99']}
         />
       </div>
       <Debug />

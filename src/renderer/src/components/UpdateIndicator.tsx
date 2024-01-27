@@ -1,30 +1,29 @@
 import { useEffect, useState } from 'react';
 import { UiTimerData } from '../../../globalTypes';
-import cx from 'classnames';
 
 interface Props {
   timerData: UiTimerData;
+  frequency: number;
 }
 
-export function UpdateIndicator({ timerData }: Props) {
-  const { frequency } = timerData;
-  const [loading, setLoading] = useState(false);
+export function UpdateIndicator({ timerData, frequency }: Props) {
+  const time = Math.round(frequency / 1000);
+  const [timeLeft, setTimeLeft] = useState(time);
 
   useEffect(() => {
-    setTimeout(() => setLoading(true), 100);
+    const interval = setInterval(() => {
+      setTimeLeft((prevState) => prevState - 1);
+    }, 1000);
 
     return () => {
-      setLoading(false);
+      clearInterval(interval);
+      setTimeLeft(time);
     };
-  }, [timerData]);
+  }, [timerData, frequency]);
 
   return (
     <div className="update-view" key={timerData.timestamp}>
-      <span className="update-view__text">Next update:</span>
-      <div
-        className={cx('update-view__indicator', loading && 'red')}
-        style={{ transitionDuration: `${frequency}ms` }}
-      />
+      <span className="update-view__text">Next update in: {timeLeft}</span>
     </div>
   );
 }

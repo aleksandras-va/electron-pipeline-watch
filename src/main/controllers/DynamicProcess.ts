@@ -5,15 +5,12 @@ export class DynamicProcess {
   private initialised: boolean;
   private intervalId: NodeJS.Timeout | null;
   private readonly frequency: number;
-  private prev: number;
 
   constructor() {
     this.initialised = false;
     this.intervalId = null;
 
-    this.frequency = 5_000; // 10 seconds
-
-    this.prev = 0;
+    this.frequency = 5_020; // 10 seconds
   }
 
   init() {
@@ -41,12 +38,7 @@ export class DynamicProcess {
   }
 
   onTick() {
-    const current = Date.now();
-    const diff = (current - this.prev) / 1000;
-    this.prev = current;
-
     RequestReducer.pipeline({ action: 'update-all' });
-    console.log('Fetch requested', diff);
-    // RequestReducer.ui({ action: 'timer-update', frequency: this.frequency, timestamp: Date.now() });
+    RequestReducer.ui({ action: 'timer-update', frequency: this.frequency, timestamp: Date.now() });
   }
 }
