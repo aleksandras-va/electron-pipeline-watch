@@ -5,6 +5,7 @@ import { RequestReducer } from '../RequestReducer';
 import { DebugPayload, PipelinePayload, ProjectPayload, UiPayload } from '../../globalTypes';
 import { projectsState } from '../state/ProjectsState';
 import { alertsState } from '../state/AlertsState';
+import { uiState } from '../state/UiState';
 import WebContents = Electron.WebContents;
 
 export class Bridge implements IObserver {
@@ -35,28 +36,32 @@ export class Bridge implements IObserver {
   onObserverNotify(type: StateUpdateType) {
     switch (type) {
       case StateUpdateType.Project:
-        this.ipcRenderer.send(MainToRendererChannels.Project, {
-          data: projectsState.instance,
-        });
-        break;
-
-      case StateUpdateType.Ui:
         // TODO: Minimize amount of data sent
         this.ipcRenderer.send(MainToRendererChannels.Project, {
           data: projectsState.instance,
         });
+
+        break;
+
+      case StateUpdateType.Ui:
+        this.ipcRenderer.send(MainToRendererChannels.Ui, {
+          data: uiState.instance.timerData,
+        });
+
         break;
 
       case StateUpdateType.App:
         this.ipcRenderer.send(MainToRendererChannels.Project, {
           data: projectsState.instance,
         });
+
         break;
 
       case StateUpdateType.Alert:
         this.ipcRenderer.send(MainToRendererChannels.Alerts, {
           data: alertsState.instance.notifyOn,
         });
+
         break;
 
       default:

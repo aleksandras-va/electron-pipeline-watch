@@ -8,7 +8,7 @@ function buildRequestUrl({ projectId, pipelineId }: { projectId: string; pipelin
 }
 
 async function handleFetch<T, K extends SubscribeRequest | WatchRequest>(request: K): Promise<T> {
-  let requestUrl = buildRequestUrl(request);
+  const requestUrl = buildRequestUrl(request);
 
   try {
     const rawData = await fetch(requestUrl);
