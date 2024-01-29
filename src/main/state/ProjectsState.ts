@@ -24,8 +24,27 @@ export class ProjectsState {
     }, []);
   }
 
-  public addProject(projectId: string) {
-    this.instance = { ...this.instance, [projectId]: { pipelinesData: [], lastUpdated: [] } };
+  @onProjectStateUpdate
+  public addProject(projectId: string, projectName: string, projectCustomName?: string) {
+    this.instance = {
+      ...this.instance,
+      [projectId]: {
+        pipelinesData: [],
+        lastUpdated: [],
+        name: projectName,
+        customName: projectCustomName,
+        order: this.ids.length,
+      },
+    };
+  }
+
+  @onProjectStateUpdate
+  public removeProject(projectId: string) {
+    const clone = { ...this.instance };
+
+    delete clone[projectId];
+
+    this.instance = { ...clone };
   }
 
   @onProjectStateUpdate
@@ -61,7 +80,7 @@ export class ProjectsState {
   }
 
   @onProjectStateUpdate
-  public removeCompletedPipelines(projectId: string) {
+  public bulkRemoveCompletedPipelines(projectId: string) {
     const state = this.instance;
 
     this.instance = {
@@ -96,8 +115,7 @@ export class ProjectsState {
 const projectsState = new ProjectsState();
 
 // TODO: Remove this after implementing project add/remove functionality
-projectsState.addProject('11');
-projectsState.addProject('22');
-projectsState.addProject('33');
+projectsState.addProject('11', 'my-project');
+projectsState.addProject('22', 'my-Project-2');
 
 export { projectsState };

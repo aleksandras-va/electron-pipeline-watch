@@ -4,6 +4,7 @@ import { Debug } from './Debug';
 import { Project } from './components/Project';
 import { MainToRendererChannels } from '../../globalConstants';
 import { UpdateIndicator } from './components/UpdateIndicator';
+import { Title } from './components/Title';
 
 export function App() {
   const [projectsMap, setProjectsMap] = useState<Projects>({});
@@ -14,7 +15,7 @@ export function App() {
   const [frequency, setFrequency] = useState<number | null>(null);
 
   useEffect(() => {
-    setFrequency(5020);
+    setFrequency(10_000);
 
     // Projects
     electron.ipcRenderer.on(MainToRendererChannels.Project, (_, payload: { data: Projects }) => {
@@ -42,27 +43,20 @@ export function App() {
     <main className="mx-5">
       {frequency && <UpdateIndicator timerData={timerData} frequency={frequency} />}
       <div className="my-5">
-        <h1>Projects</h1>
+        <Title />
       </div>
       <div className="d-flex gap-4">
-        <Project
-          id={'11'}
-          name={'Root Worker'}
-          pipelines={projectsMap['11']?.pipelinesData}
-          updated={notifyOn['11']}
-        />
-        <Project
-          id={'22'}
-          name={'Stella'}
-          pipelines={projectsMap['22']?.pipelinesData}
-          updated={notifyOn['22']}
-        />
-        <Project
-          id={'33'}
-          name={'Lib'}
-          pipelines={projectsMap['33']?.pipelinesData}
-          updated={notifyOn['33']}
-        />
+        {Object.entries(projectsMap).map(([key, value], index) => {
+          return (
+            <Project
+              key={index}
+              id={key}
+              name={value.name}
+              pipelines={value?.pipelinesData}
+              updated={notifyOn[key]}
+            />
+          );
+        })}
       </div>
       <Debug />
     </main>

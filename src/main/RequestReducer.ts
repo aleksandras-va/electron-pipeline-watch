@@ -5,14 +5,31 @@ import {
   ProjectPayload,
   UiPayload,
 } from '../globalTypes';
-import { PipelineHandler } from './Handlers/PipelineHandler';
+import { ProjectHandler } from './Handlers/ProjectHandler';
 import { UiHandler } from './Handlers/UiHandler';
 import { AppHandler } from './Handlers/AppHandler';
 import { Static } from './utils';
 
 export class RequestReducer extends Static {
   static project(payload: ProjectPayload) {
-    void payload;
+    const { action, projectId } = payload;
+
+    switch (action) {
+      case 'add':
+        void ProjectHandler.addProject({ projectId, projectCustomName: payload.projectCustomName });
+
+        break;
+
+      case 'remove':
+        ProjectHandler.removeProject({ projectId });
+
+        break;
+
+      default:
+        throw new Error(
+          `Default case reached at RequestReducer, project, data: ${JSON.stringify(payload)}`
+        );
+    }
   }
 
   static pipeline(payload: PipelinePayload) {
@@ -20,16 +37,16 @@ export class RequestReducer extends Static {
 
     switch (action) {
       case 'add':
-        void PipelineHandler.add(payload);
+        void ProjectHandler.addPipeline(payload);
         break;
       case 'remove':
-        PipelineHandler.remove(payload);
+        ProjectHandler.removePipeline(payload);
         break;
       case 'remove-completed':
-        PipelineHandler.removeCompleted(payload.projectId);
+        ProjectHandler.removeCompleted(payload.projectId);
         break;
       case 'update-all':
-        void PipelineHandler.update();
+        void ProjectHandler.update();
         break;
       default:
         throw new Error(
@@ -47,10 +64,14 @@ export class RequestReducer extends Static {
           projectId: payload.projectId,
           elementState: payload.elementState,
         });
+
         break;
+
       case 'timer-update':
         UiHandler.timerUpdate(payload);
+
         break;
+
       default:
         throw new Error(
           `Default case reached at RequestReducer, ui, data: ${JSON.stringify(payload)}`
@@ -64,7 +85,7 @@ export class RequestReducer extends Static {
 
   static debug(payload: DebugPayload) {
     if (payload.details === 'update-all') {
-      void PipelineHandler.update();
+      void ProjectHandler.update();
     }
   }
 }

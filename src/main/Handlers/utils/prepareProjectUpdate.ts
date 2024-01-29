@@ -4,13 +4,14 @@ import { fetchPipelines } from './handleFetch';
 import { projectsState } from '../../state/ProjectsState';
 
 export async function prepareProjectUpdate(id: string): Promise<Project> {
-  const pipelinesReference = projectsState.instance[id].pipelinesData;
-  const lastUpdated: string[] = [];
+  const { pipelinesData, lastUpdated, ...rest } = projectsState.instance[id];
 
-  if (!pipelinesReference.length) return { pipelinesData: [], lastUpdated };
+  lastUpdated.splice(0, lastUpdated.length);
+
+  if (!pipelinesData.length) return { pipelinesData: [], lastUpdated, ...rest };
 
   // Clone pipelines
-  const pipelines: Pipeline[] = pipelinesReference.map((it) => ({ ...it }));
+  const pipelines: Pipeline[] = pipelinesData.map((it) => ({ ...it }));
 
   const pipelinesFromApi: PipelineApi[] = await fetchPipelines({ projectId: id });
 
@@ -34,5 +35,5 @@ export async function prepareProjectUpdate(id: string): Promise<Project> {
     }
   });
 
-  return { pipelinesData: pipelines, lastUpdated };
+  return { pipelinesData: pipelines, lastUpdated, ...rest };
 }

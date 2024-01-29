@@ -5,6 +5,11 @@ import { statuses } from './globalConstants';
 export type Status = (typeof statuses)[number];
 export type FinishedStatus = 'failed' | 'success' | 'skipped';
 
+export interface ProjectApi {
+  id: string;
+  name: string;
+}
+
 export interface PipelineApi {
   id: string;
   project_id: string;
@@ -25,6 +30,9 @@ export interface Pipeline {
 export interface Project {
   pipelinesData: Pipeline[];
   lastUpdated: string[];
+  name: string;
+  order: number;
+  customName?: string;
 }
 
 export type UiTimerData = {
@@ -43,10 +51,19 @@ export interface Notifications {
   notifyOn: NotifyOn;
 }
 
-export interface ProjectPayload {
-  details: 'add' | 'remove';
-  projectId: string;
+export interface ProjectPayloadTypes {
+  add: {
+    action: 'add';
+    projectId: string;
+    projectCustomName?: string;
+  };
+  remove: {
+    action: 'remove';
+    projectId: string;
+  };
 }
+
+export type ProjectPayload = ProjectPayloadTypes[keyof ProjectPayloadTypes];
 
 export interface PipelinePayloadTypes {
   add: {

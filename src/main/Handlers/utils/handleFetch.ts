@@ -1,14 +1,9 @@
 import { SubscribeRequest, WatchRequest } from '../../types';
-import { Pipeline } from '../../../globalTypes';
+import { PipelineApi, ProjectApi } from '../../../globalTypes';
 
-function buildRequestUrl({ projectId, pipelineId }: { projectId: string; pipelineId?: string }) {
-  const baseUrl = import.meta.env.MAIN_API_URL;
-
-  return `${baseUrl}/${projectId}/pipelines/${pipelineId || ''}`;
-}
-
-async function handleFetch<T, K extends SubscribeRequest | WatchRequest>(request: K): Promise<T> {
-  const requestUrl = buildRequestUrl(request);
+async function handleFetch<T>(path: string): Promise<T> {
+  const baseUrl = import.meta.env.MAIN_MOCK_API_URL;
+  const requestUrl = `${baseUrl}${path}`;
 
   try {
     const rawData = await fetch(requestUrl);
@@ -22,9 +17,18 @@ async function handleFetch<T, K extends SubscribeRequest | WatchRequest>(request
 }
 
 export async function fetchPipeline(request: SubscribeRequest) {
-  return handleFetch<Pipeline, SubscribeRequest>(request);
+  const { projectId, pipelineId } = request;
+  const url = `/${projectId}/pipelines/${pipelineId}`;
+
+  return handleFetch<PipelineApi>(url);
 }
 
 export async function fetchPipelines(request: WatchRequest) {
-  return handleFetch<Pipeline[], WatchRequest>(request);
+  const { projectId } = request;
+
+  return handleFetch<PipelineApi[]>(`/${projectId}/pipelines`);
+}
+
+export async function fetchProject(projectId: string) {
+  return handleFetch<ProjectApi>(`/${projectId}`);
 }

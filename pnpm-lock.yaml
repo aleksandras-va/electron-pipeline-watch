@@ -20,6 +20,9 @@ dependencies:
   react-bootstrap:
     specifier: ^2.9.0
     version: 2.9.0(@types/react@18.2.23)(react-dom@18.2.0)(react@18.2.0)
+  unique-names-generator:
+    specifier: ^4.7.1
+    version: 4.7.1
 
 devDependencies:
   '@electron-toolkit/eslint-config-prettier':
@@ -4924,6 +4927,11 @@ packages:
 
   /undici-types@5.26.5:
     resolution: {integrity: sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==}
+
+  /unique-names-generator@4.7.1:
+    resolution: {integrity: sha512-lMx9dX+KRmG8sq6gulYYpKWZc9RlGsgBR6aoO8Qsm3qvkSJ+3rAymr+TnV8EDMrIrwuFJ4kruzMWM/OpYzPoow==}
+    engines: {node: '>=8'}
+    dev: false
 
   /universalify@0.1.2:
     resolution: {integrity: sha512-rBJeI5CXAlmy1pV+617WB9J63U6XcazHHF2f2dbJix4XzpUF0RS3Zbj0FGIOCAva5P/d/GBOYaACQ1w+0azUkg==}
