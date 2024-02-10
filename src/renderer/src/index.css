@@ -90,3 +90,14 @@ h2 {
   display: flex;
 }
 
+.add-button {
+  padding: 4px 6px;
+  cursor: pointer;
+  border: solid 1px transparent;
+  border-radius: 4px;
+  transition: all .2s ease-in;
+}
+
+.add-button:hover {
+  border: solid 1px #537379;
+}

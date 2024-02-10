@@ -1,6 +1,6 @@
 import { RendererToMainChannels } from '../../globalConstants';
 import { useState } from 'react';
-import { DebugPayload } from '../../globalTypes';
+import { DebugPayload, ProjectPayload } from '../../globalTypes';
 
 export function Debug() {
   const [delayedUpdate, setDelayedUpdate] = useState(0);
@@ -8,7 +8,20 @@ export function Debug() {
   return (
     <div className="debug-bar">
       <div>
-        Delayed updates: {delayedUpdate}{' '}
+        <button
+          style={{ marginRight: '20px' }}
+          onClick={() => {
+            const payload: ProjectPayload = {
+              action: 'add',
+              projectId: String(Math.random()),
+              projectCustomName: '',
+            };
+
+            electron.ipcRenderer.send(RendererToMainChannels.Project, payload);
+          }}
+        >
+          Quick add project
+        </button>
         <button
           style={{ marginRight: '20px' }}
           onClick={() => {
@@ -21,7 +34,7 @@ export function Debug() {
             }, 2000);
           }}
         >
-          Force Delayed Fetch 2
+          Force Delayed Fetch
         </button>
       </div>
 

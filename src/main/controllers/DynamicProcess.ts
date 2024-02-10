@@ -10,7 +10,7 @@ export class DynamicProcess {
     this.initialised = false;
     this.intervalId = null;
 
-    this.frequency = 5_020; // 10 seconds
+    this.frequency = 10_000; // 10 seconds
   }
 
   init() {
