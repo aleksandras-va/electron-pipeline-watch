@@ -11,9 +11,10 @@ interface Props {
   name: string;
   pipelines: Pipeline[];
   updated: string[];
+  order: number;
 }
 
-export function Project({ id, name, pipelines = [], updated = [] }: Props) {
+export function ProjectView({ id, name, pipelines = [], updated = [], order }: Props) {
   const updates = updated.length ? 1 : 0;
   const parsedName = name.split('-').map(capitalizeFirstLetter).join(' ');
 
@@ -30,7 +31,9 @@ export function Project({ id, name, pipelines = [], updated = [] }: Props) {
     <ProjectContext.Provider value={{ id, updates }}>
       <div className="w-100">
         <div className="d-flex justify-content-between">
-          <h2 className="mb-4">{parsedName}</h2>
+          <h2 className="mb-4">
+            {parsedName}, Order: {order}
+          </h2>
           <CloseButton onClick={handleProjectRemove} />
         </div>
         <SubscriptionForm />

@@ -32,6 +32,7 @@ export interface Project {
   lastUpdated: string[];
   name: string;
   order: number;
+  id: string;
   customName?: string;
 }
 
@@ -42,6 +43,7 @@ export type UiTimerData = {
 
 export type NotifyOn = Record<string, string[]>;
 export type Projects = Record<string, Project>;
+
 export interface Ui {
   dropdown: Record<string, 'expanded' | 'collapsed'>;
   timerData: UiTimerData;

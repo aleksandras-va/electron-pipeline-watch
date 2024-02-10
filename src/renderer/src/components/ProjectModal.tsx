@@ -1,10 +1,12 @@
-import { useRef } from 'react';
+import { useContext, useRef, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import { SetState } from '../types';
 import { ProjectPayload } from '../../../globalTypes';
 import { RendererToMainChannels } from '../../../globalConstants';
+import { AppContext } from './context/AppContext';
+import { ShowToast } from './Toast';
 
 interface Props {
   showModal: boolean;
@@ -14,6 +16,8 @@ interface Props {
 export function ProjectModal({ showModal, setShowModal }: Props) {
   const nameInputRef = useRef<HTMLInputElement | null>(null);
   const idInputRef = useRef<HTMLInputElement | null>(null);
+  const { registeredIds } = useContext(AppContext);
+  const [showToast, setShowToast] = useState(false);
 
   const handleClose = () => {
     setShowModal(false);
@@ -21,9 +25,17 @@ export function ProjectModal({ showModal, setShowModal }: Props) {
 
   const handleSubmit = () => {
     if (nameInputRef?.current && idInputRef?.current) {
+      const id = idInputRef.current.value;
+
+      if (registeredIds.includes(id)) {
+        setShowToast(true);
+
+        return;
+      }
+
       const payload: ProjectPayload = {
         action: 'add',
-        projectId: idInputRef.current.value,
+        projectId: id,
         projectCustomName: nameInputRef.current.value,
       };
 
@@ -37,6 +49,7 @@ export function ProjectModal({ showModal, setShowModal }: Props) {
 
   return (
     <Modal show={showModal} onHide={handleClose}>
+      <ShowToast show={showToast} setShow={setShowToast} />
       <Modal.Header closeButton>
         <Modal.Title>Add project</Modal.Title>
       </Modal.Header>

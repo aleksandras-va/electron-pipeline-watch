@@ -1,15 +1,18 @@
 import { useEffect, useState } from 'react';
-import { NotifyOn, Projects, UiTimerData } from '../../globalTypes';
+import { NotifyOn, Project, Projects, UiTimerData } from '../../globalTypes';
 import { Debug } from './Debug';
-import { Project } from './components/Project';
+import { ProjectView } from './components/ProjectView';
 import { MainToRendererChannels } from '../../globalConstants';
 import { UpdateIndicator } from './components/UpdateIndicator';
 import { Title } from './components/Title';
+import { AppContext } from './components/context/AppContext';
 
 export function App() {
-  const [projectsMap, setProjectsMap] = useState<Projects>({});
-  const [notifyOn, setNotifyOn] = useState<NotifyOn>({});
-  const [timerData, setTimerData] = useState<UiTimerData>({ frequency: 0, timestamp: 0 });
+  const [rawProjects, setRawProjects] = useState<Projects>({});
+  const [rawIndicatorData, setRawIndicatorData] = useState<NotifyOn>({});
+  const [rawTimerData, setRawTimerData] = useState<UiTimerData>({ frequency: 0, timestamp: 0 });
+
+  const [projects, setProjects] = useState<Project[]>([]);
 
   // Set "frequency" by sending constant from initialization rather that timer tick
   const [frequency, setFrequency] = useState<number | null>(null);
@@ -19,17 +22,17 @@ export function App() {
 
     // Projects
     electron.ipcRenderer.on(MainToRendererChannels.Project, (_, payload: { data: Projects }) => {
-      setProjectsMap(payload.data);
+      setRawProjects(payload.data);
     });
 
     // Alerts
     electron.ipcRenderer.on(MainToRendererChannels.Alerts, (_, payload: { data: NotifyOn }) => {
-      setNotifyOn(payload.data);
+      setRawIndicatorData(payload.data);
     });
 
     // UI
     electron.ipcRenderer.on(MainToRendererChannels.Ui, (_, payload: { data: UiTimerData }) => {
-      setTimerData(payload.data);
+      setRawTimerData(payload.data);
     });
 
     return () => {
@@ -39,26 +42,38 @@ export function App() {
     };
   }, []);
 
+  // Sort projects
+  useEffect(() => {
+    const sortedProjects = Object.values(rawProjects);
+
+    sortedProjects.sort((a, b) => a.order - b.order);
+
+    setProjects(sortedProjects);
+  }, [rawProjects]);
+
   return (
-    <main className="mx-5">
-      {frequency && <UpdateIndicator timerData={timerData} frequency={frequency} />}
-      <div className="my-5">
-        <Title />
-      </div>
-      <div className="d-flex gap-4">
-        {Object.entries(projectsMap).map(([key, value], index) => {
-          return (
-            <Project
-              key={index}
-              id={key}
-              name={value.name}
-              pipelines={value?.pipelinesData}
-              updated={notifyOn[key]}
-            />
-          );
-        })}
-      </div>
-      <Debug />
-    </main>
+    <AppContext.Provider value={{ registeredIds: Object.keys(rawProjects) }}>
+      <main className="mx-5">
+        {frequency && <UpdateIndicator timerData={rawTimerData} frequency={frequency} />}
+        <div className="my-5">
+          <Title />
+        </div>
+        <div className="d-flex gap-4">
+          {projects.map(({ id, name, pipelinesData, order, customName }, index) => {
+            return (
+              <ProjectView
+                key={index}
+                id={id}
+                name={customName || name}
+                pipelines={pipelinesData}
+                updated={rawIndicatorData[id]}
+                order={order}
+              />
+            );
+          })}
+        </div>
+        <Debug />
+      </main>
+    </AppContext.Provider>
   );
 }

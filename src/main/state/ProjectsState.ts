@@ -1,6 +1,7 @@
 import { Pipeline, Project, Projects } from '../../globalTypes';
 import { updateProject } from './utils/updateProject';
 import { onProjectStateUpdate } from './utils/stateUpdateDecorator';
+import { recalculateProjectOrder } from './utils/recalculateProjectOrder';
 
 export class ProjectsState {
   // TODO: notifyOn and lastUpdated should be "Set"
@@ -33,7 +34,8 @@ export class ProjectsState {
         lastUpdated: [],
         name: projectName,
         customName: projectCustomName,
-        order: this.ids.length,
+        id: projectId,
+        order: this.ids.length + 1,
       },
     };
   }
@@ -44,7 +46,7 @@ export class ProjectsState {
 
     delete clone[projectId];
 
-    this.instance = { ...clone };
+    this.instance = { ...recalculateProjectOrder(clone) };
   }
 
   @onProjectStateUpdate
@@ -115,7 +117,7 @@ export class ProjectsState {
 const projectsState = new ProjectsState();
 
 // TODO: Remove this after implementing project add/remove functionality
-projectsState.addProject('11', 'my-project');
-projectsState.addProject('22', 'my-Project-2');
+// projectsState.addProject('11', 'my-project');
+// projectsState.addProject('22', 'my-ProjectView-2');
 
 export { projectsState };
