@@ -1,7 +1,7 @@
 import { Ui } from '../../globalTypes';
 import { onUiStateUpdate } from './utils/stateUpdateDecorator';
 
-export class UiState {
+class UiState {
   instance: Ui;
 
   constructor() {

@@ -18,7 +18,7 @@ export class AlertsState {
   get totalOfUpdatedPipelines() {
     let amount = 0;
 
-    for (let projectId in this.notifyOn) {
+    for (const projectId in this.notifyOn) {
       amount += this.notifyOn[projectId].length;
     }
 

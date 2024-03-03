@@ -10,9 +10,11 @@ export const statuses = [
 
 export enum MainToRendererChannels {
   Alerts = 'alerts-update',
+  App = 'app-update',
   Pipeline = 'pipeline-update',
   Project = 'project-update',
   Ui = 'ui-update',
+  User = 'user-update',
 }
 
 export enum RendererToMainChannels {
@@ -20,4 +22,5 @@ export enum RendererToMainChannels {
   Pipeline = 'pipeline-action',
   Project = 'project-action',
   Ui = 'ui-action',
+  User = 'user-action',
 }
