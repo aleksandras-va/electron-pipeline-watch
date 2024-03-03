@@ -4,8 +4,9 @@ import { BrowserWindow, shell } from 'electron';
 import { fileURLToPath } from 'url';
 import { eventManager } from './EventManager';
 import { AlertsManager } from './AlertsManager';
-import { DynamicProcess } from './controllers/DynamicProcess';
+import { AppRoutines } from './controllers/AppRoutines';
 import { Bridge } from './controllers/Bridge';
+import { RequestReducer } from './RequestReducer';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -46,14 +47,18 @@ export function createWindow() {
   }
 
   const bridge = new Bridge(mainWindow);
-  const dynamicProcess = new DynamicProcess();
+  const appRoutines = new AppRoutines();
   const alertManager = new AlertsManager(mainWindow);
 
   bridge.init();
-  dynamicProcess.init();
+  appRoutines.init();
 
-  eventManager.subscribe(bridge);
   eventManager.subscribe(alertManager);
+  eventManager.subscribe(bridge);
+
+  mainWindow.webContents.once('dom-ready', () => {
+    RequestReducer.user({ action: 'session-check' });
+  });
 
   return mainWindow;
 }

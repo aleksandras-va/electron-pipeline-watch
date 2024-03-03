@@ -1,5 +1,6 @@
 import { statuses } from './globalConstants';
 
+export type { UserSettings } from './main/sharedMainTypes';
 // TODO: import these types in some document closer to processes
 
 export type Status = (typeof statuses)[number];
@@ -111,3 +112,20 @@ export interface AppPayload {
 export interface DebugPayload {
   details: 'update-all';
 }
+
+interface UserPayloadTypes {
+  startupCheck: {
+    action: 'startup-check';
+  };
+  sessionCheck: {
+    action: 'session-check';
+  };
+  login: {
+    action: 'login';
+    username: string;
+    apiKey: string;
+    frequency: string;
+  };
+}
+
+export type UserPayload = UserPayloadTypes[keyof UserPayloadTypes];

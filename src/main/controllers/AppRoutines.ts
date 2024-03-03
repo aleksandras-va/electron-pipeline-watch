@@ -1,7 +1,7 @@
 import { app } from 'electron';
 import { RequestReducer } from '../RequestReducer';
 
-export class DynamicProcess {
+export class AppRoutines {
   private initialised: boolean;
   private intervalId: NodeJS.Timeout | null;
   private readonly frequency: number;

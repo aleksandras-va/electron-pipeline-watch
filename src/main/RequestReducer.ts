@@ -4,30 +4,45 @@ import {
   PipelinePayload,
   ProjectPayload,
   UiPayload,
+  UserPayload,
 } from '../globalTypes';
 import { ProjectHandler } from './Handlers/ProjectHandler';
 import { UiHandler } from './Handlers/UiHandler';
 import { AppHandler } from './Handlers/AppHandler';
 import { Static } from './utils';
+import { UserHandler } from './Handlers/UserHandler';
 
 export class RequestReducer extends Static {
+  static user(payload: UserPayload) {
+    const { action } = payload;
+
+    switch (action) {
+      case 'login':
+        void UserHandler.login(payload);
+        break;
+      case 'session-check':
+        void UserHandler.checkIfLoggedIn();
+        break;
+      default:
+        throw new Error(
+          `Default case reached at RequestReducer, USER, data: ${JSON.stringify(payload)}`
+        );
+    }
+  }
+
   static project(payload: ProjectPayload) {
     const { action, projectId } = payload;
 
     switch (action) {
       case 'add':
         void ProjectHandler.addProject({ projectId, projectCustomName: payload.projectCustomName });
-
         break;
-
       case 'remove':
         ProjectHandler.removeProject({ projectId });
-
         break;
-
       default:
         throw new Error(
-          `Default case reached at RequestReducer, project, data: ${JSON.stringify(payload)}`
+          `Default case reached at RequestReducer, PROJECT, data: ${JSON.stringify(payload)}`
         );
     }
   }
@@ -50,7 +65,7 @@ export class RequestReducer extends Static {
         break;
       default:
         throw new Error(
-          `Default case reached at RequestReducer, pipeline, data: ${JSON.stringify(payload)}`
+          `Default case reached at RequestReducer, PIPELINE, data: ${JSON.stringify(payload)}`
         );
     }
   }
@@ -64,17 +79,13 @@ export class RequestReducer extends Static {
           projectId: payload.projectId,
           elementState: payload.elementState,
         });
-
         break;
-
       case 'timer-update':
         UiHandler.timerUpdate(payload);
-
         break;
-
       default:
         throw new Error(
-          `Default case reached at RequestReducer, ui, data: ${JSON.stringify(payload)}`
+          `Default case reached at RequestReducer, UI, data: ${JSON.stringify(payload)}`
         );
     }
   }

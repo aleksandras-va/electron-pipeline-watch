@@ -2,12 +2,20 @@ import { BrowserWindow, ipcMain } from 'electron';
 import { IObserver, StateUpdateType } from '../EventManager';
 import { MainToRendererChannels, RendererToMainChannels } from '../../globalConstants';
 import { RequestReducer } from '../RequestReducer';
-import { DebugPayload, PipelinePayload, ProjectPayload, UiPayload } from '../../globalTypes';
+import {
+  DebugPayload,
+  PipelinePayload,
+  ProjectPayload,
+  UiPayload,
+  UserPayload,
+} from '../../globalTypes';
 import { projectsState } from '../state/ProjectsState';
 import { alertsState } from '../state/AlertsState';
 import { uiState } from '../state/UiState';
+import { userState } from '../state/UserState';
 import WebContents = Electron.WebContents;
 
+// TODO: split "init" function to reduce functionality for logged out session
 export class Bridge implements IObserver {
   private ipcRenderer: WebContents;
 
@@ -31,6 +39,10 @@ export class Bridge implements IObserver {
     ipcMain.on(RendererToMainChannels.Debug, (_, payload: DebugPayload) => {
       RequestReducer.debug(payload);
     });
+
+    ipcMain.on(RendererToMainChannels.User, (_, payload: UserPayload) => {
+      RequestReducer.user(payload);
+    });
   }
 
   onObserverNotify(type: StateUpdateType) {
@@ -40,30 +52,27 @@ export class Bridge implements IObserver {
         this.ipcRenderer.send(MainToRendererChannels.Project, {
           data: projectsState.instance,
         });
-
         break;
-
       case StateUpdateType.Ui:
         this.ipcRenderer.send(MainToRendererChannels.Ui, {
           data: uiState.instance.timerData,
         });
-
         break;
-
       case StateUpdateType.App:
         this.ipcRenderer.send(MainToRendererChannels.Project, {
           data: projectsState.instance,
         });
-
         break;
-
       case StateUpdateType.Alert:
         this.ipcRenderer.send(MainToRendererChannels.Alerts, {
           data: alertsState.instance.notifyOn,
         });
-
         break;
-
+      case StateUpdateType.User:
+        this.ipcRenderer.send(MainToRendererChannels.User, {
+          data: userState.instance,
+        });
+        break;
       default:
         throw new Error(`Reached "never" case with type: "${type}"`);
     }
