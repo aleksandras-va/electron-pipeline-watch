@@ -1,13 +1,18 @@
 import { useEffect, useState } from 'react';
-import { NotifyOn, Project, Projects, UiTimerData } from '../../globalTypes';
+import { NotifyOn, Project, Projects, UiTimerData, UserData } from '../../globalTypes';
 import { Debug } from './Debug';
 import { ProjectView } from './components/ProjectView';
 import { MainToRendererChannels } from '../../globalConstants';
 import { UpdateIndicator } from './components/UpdateIndicator';
 import { Title } from './components/Title';
 import { AppContext } from './components/context/AppContext';
+import { User } from './components/User';
 
-export function App() {
+interface Props {
+  username: string;
+}
+
+export function App({ username }: Props) {
   const [rawProjects, setRawProjects] = useState<Projects>({});
   const [rawIndicatorData, setRawIndicatorData] = useState<NotifyOn>({});
   const [rawTimerData, setRawTimerData] = useState<UiTimerData>({ frequency: 0, timestamp: 0 });
@@ -35,6 +40,11 @@ export function App() {
       setRawTimerData(payload.data);
     });
 
+    // User
+    electron.ipcRenderer.on(MainToRendererChannels.User, (_, payload: { data: UserData }) => {
+      console.log(payload);
+    });
+
     return () => {
       electron.ipcRenderer.removeAllListeners(MainToRendererChannels.Project);
       electron.ipcRenderer.removeAllListeners(MainToRendererChannels.Alerts);
@@ -55,8 +65,9 @@ export function App() {
     <AppContext.Provider value={{ registeredIds: Object.keys(rawProjects) }}>
       <main className="mx-5">
         {frequency && <UpdateIndicator timerData={rawTimerData} frequency={frequency} />}
-        <div className="my-5">
+        <div className="d-flex justify-content-between my-5">
           <Title />
+          <User username={username} />
         </div>
         <div className="d-flex gap-4">
           {projects.map(({ id, name, pipelinesData, order, customName }, index) => {

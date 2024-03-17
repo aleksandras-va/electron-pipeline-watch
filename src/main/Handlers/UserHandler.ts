@@ -17,11 +17,17 @@ export class UserHandler extends Static {
     this.checkIfLoggedIn();
   }
 
+  static logout() {
+    userState.setLoggedOut();
+
+    configurationStore.clear();
+  }
+
   static checkIfLoggedIn() {
     const { username, userApiKey } = configurationStore;
 
     if (username && userApiKey) {
-      userState.setLoggedIn();
+      userState.setLoggedIn(username);
     } else {
       userState.setLoggedOut();
     }

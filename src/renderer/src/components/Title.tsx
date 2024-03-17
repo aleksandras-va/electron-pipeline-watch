@@ -5,7 +5,7 @@ export function Title() {
   const [showModal, setShowModal] = useState(false);
 
   return (
-    <>
+    <div>
       <h1>Projects</h1>
       <span
         className="add-button"
@@ -16,6 +16,6 @@ export function Title() {
         + Add
       </span>
       {showModal && <ProjectModal showModal={showModal} setShowModal={setShowModal} />}
-    </>
+    </div>
   );
 }
