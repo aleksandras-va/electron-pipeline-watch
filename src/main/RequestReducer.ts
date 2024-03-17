@@ -20,6 +20,9 @@ export class RequestReducer extends Static {
       case 'login':
         void UserHandler.login(payload);
         break;
+      case 'logout':
+        void UserHandler.logout();
+        break;
       case 'session-check':
         void UserHandler.checkIfLoggedIn();
         break;

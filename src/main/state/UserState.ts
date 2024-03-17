@@ -1,28 +1,25 @@
 import { onUserStateUpdate } from './utils/stateUpdateDecorator';
-
-interface User {
-  loggedIn: boolean;
-  settings: unknown;
-}
+import { UserData } from '../../globalTypes';
 
 class UserState {
-  instance: User;
+  instance: UserData;
 
   constructor() {
     this.instance = {
       loggedIn: false,
+      name: '',
       settings: {},
     };
   }
 
   @onUserStateUpdate
-  public setLoggedIn() {
-    this.instance = { ...this.instance, loggedIn: true };
+  public setLoggedIn(name: string) {
+    this.instance = { ...this.instance, loggedIn: true, name };
   }
 
   @onUserStateUpdate
   public setLoggedOut() {
-    this.instance = { ...this.instance, loggedIn: false };
+    this.instance = { ...this.instance, loggedIn: false, name: '' };
   }
 }
 

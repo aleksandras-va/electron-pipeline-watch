@@ -1,8 +1,5 @@
 import { statuses } from './globalConstants';
 
-export type { UserSettings } from './main/sharedMainTypes';
-// TODO: import these types in some document closer to processes
-
 export type Status = (typeof statuses)[number];
 export type FinishedStatus = 'failed' | 'success' | 'skipped';
 
@@ -113,6 +110,12 @@ export interface DebugPayload {
   details: 'update-all';
 }
 
+export interface UserData {
+  loggedIn: boolean;
+  name: string;
+  settings: unknown;
+}
+
 interface UserPayloadTypes {
   startupCheck: {
     action: 'startup-check';
@@ -125,6 +128,9 @@ interface UserPayloadTypes {
     username: string;
     apiKey: string;
     frequency: string;
+  };
+  logout: {
+    action: 'logout';
   };
 }
 

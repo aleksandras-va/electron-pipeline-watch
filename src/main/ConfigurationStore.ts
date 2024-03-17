@@ -43,6 +43,10 @@ class ConfigurationStore {
   set updateFrequency(value) {
     this.store.set('updateFrequency', value);
   }
+
+  clear() {
+    this.store.clear();
+  }
 }
 
 const configurationStore = new ConfigurationStore();
